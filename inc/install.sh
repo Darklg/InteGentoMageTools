@@ -43,7 +43,7 @@ if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
 else
     echo "- Database ${project_id} does exist";
     echo "-- Setting base URL";
-    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}/' WHERE path IN('web/unsecure/base_url','web/secure/base_url');";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}' WHERE path IN('web/unsecure/base_url','web/secure/base_url');";
     echo "-- Add checkmo payment method";
     mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value = '1' WHERE path = 'payment/checkmo/active';";
 fi
