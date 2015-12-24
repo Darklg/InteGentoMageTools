@@ -44,10 +44,33 @@ if [[ $mysql_pass == '' ]]; then
     mysql_pass='root';
 fi;
 
+database_file_import="dump.sql";
 if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
     echo "- Database ${project_id} does not exist";
+
+    # Create database
+    read -p "Create database ? [Y/n]:" create_database;
+    if [[ $create_database != 'n' ]]; then
+        mysql -u ${mysql_user} -p${mysql_pass} -e "CREATE DATABASE ${project_id} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;";
+        echo "-- Database is created";
+
+        # Import dump.sql file if available
+        if test -f ${database_file_import}; then
+            read -p "Import database file '${database_file_import}' ? [Y/n]:" import_database;
+            if [[ $import_database != 'n' ]]; then
+                echo "-- Database imported from '${database_file_import}'";
+                mysql -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
+            fi;
+        fi;
+    fi;
+fi;
+
+if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
+    echo "- Database ${project_id} still does not exist";
 else
     echo "- Database ${project_id} does exist";
+
+    # Magento settings
     echo "-- Setting base URL";
     mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}' WHERE path IN('web/unsecure/base_url','web/secure/base_url');";
     echo "-- Add checkmo payment method";
