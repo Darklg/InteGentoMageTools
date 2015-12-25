@@ -44,23 +44,35 @@ if [[ $mysql_pass == '' ]]; then
     mysql_pass='root';
 fi;
 
-database_file_import="dump.sql";
+# Create database
+create_database='n';
 if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
     echo "- Database ${project_id} does not exist";
 
-    # Create database
     read -p "Create database ? [Y/n]:" create_database;
     if [[ $create_database != 'n' ]]; then
         mysql -u ${mysql_user} -p${mysql_pass} -e "CREATE DATABASE ${project_id} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;";
         echo "-- Database is created";
+    fi;
+fi;
 
-        # Import dump.sql file if available
-        if test -f ${database_file_import}; then
-            read -p "Import database file '${database_file_import}' ? [Y/n]:" import_database;
-            if [[ $import_database != 'n' ]]; then
-                echo "-- Database imported from '${database_file_import}'";
-                mysql -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
-            fi;
+# Import database if database creation
+if [[ $create_database != 'n' ]]; then
+    # Search an import file
+    database_file_import="";
+    database_file_exists='0';
+    for f in $(ls *.sql 2>/dev/null); do
+        database_file_import="${f}";
+        database_file_exists="1";
+        break 1;
+    done
+
+    # Import dump.sql file if available
+    if [[ $database_file_exists != '0' ]]; then
+        read -p "Import database file '${database_file_import}' ? [Y/n]:" import_database;
+        if [[ $import_database != 'n' ]]; then
+            echo "-- Database imported from '${database_file_import}'";
+            mysql -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
         fi;
     fi;
 fi;
