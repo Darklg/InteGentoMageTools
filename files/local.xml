@@ -41,8 +41,8 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[root]]></username>
-                    <password><![CDATA[root]]></password>
+                    <username><![CDATA[INTEGENTOUSERNAME]]></username>
+                    <password><![CDATA[INTEGENTOPASSWORD]]></password>
                     <dbname><![CDATA[INTEGENTODBNAME]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+read -p "Project ID : " project_id;
+
 ###################################
 ## Default files
 ###################################
@@ -14,6 +16,11 @@ if [ ! -f .htaccess ]; then
     cp "${SOURCEDIR}files/default.htaccess" ".htaccess";
 fi;
 
+if [ ! -f app/etc/config.xml ]; then
+    echo "- Add default config.xml";
+    cp "${SOURCEDIR}files/config.xml" "app/etc/config.xml";
+fi;
+
 ###################################
 ## Add config files
 ###################################
@@ -21,28 +28,33 @@ fi;
 if [ ! -f app/etc/local.xml ]; then
     echo "- Add default local.xml";
     cp "${SOURCEDIR}files/local.xml" "app/etc/local.xml";
-fi;
 
-if [ ! -f app/etc/config.xml ]; then
-    echo "- Add default config.xml";
-    cp "${SOURCEDIR}files/config.xml" "app/etc/config.xml";
-fi;
+    # Get MySQL values
+    read -p "MySQL user : " mysql_user;
+    if [[ $mysql_user == '' ]]; then
+        mysql_user='root';
+    fi;
+    read -p "MySQL pass : " mysql_pass;
+    if [[ $mysql_pass == '' ]]; then
+        mysql_pass='root';
+    fi;
 
-read -p "Project ID : " project_id;
-sed -i '' "s/INTEGENTODBNAME/${project_id}/" "app/etc/local.xml";
+    # Set values
+    echo "- Set values in local.xml";
+    sed -i '' "s/INTEGENTODBNAME/${project_id}/" "app/etc/local.xml";
+    sed -i '' "s/INTEGENTOUSERNAME/${mysql_user}/" "app/etc/local.xml";
+    sed -i '' "s/INTEGENTOPASSWORD/${mysql_pass}/" "app/etc/local.xml";
+
+else :
+    echo "- Extracting values from local.xml";
+    datalocal=`cat app/etc/local.xml`;
+    mysql_user=$(sed -ne '/username/{s/.*<username><\!\[CDATA\[\(.*\)\]\]><\/username>.*/\1/p;q;}' <<< "$datalocal");
+    mysql_pass=$(sed -ne '/password/{s/.*<password><\!\[CDATA\[\(.*\)\]\]><\/password>.*/\1/p;q;}' <<< "$datalocal");
+fi;
 
 ###################################
 ## DB
 ###################################
-
-read -p "MySQL user : " mysql_user;
-if [[ $mysql_user == '' ]]; then
-    mysql_user='root';
-fi;
-read -p "MySQL pass : " mysql_pass;
-if [[ $mysql_pass == '' ]]; then
-    mysql_pass='root';
-fi;
 
 # Create database
 create_database='n';
