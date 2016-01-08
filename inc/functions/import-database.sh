@@ -10,11 +10,10 @@ if [[ $database_file_exists != '0' ]]; then
     read -p "Import database file '${database_file_import}' (${database_file_size} ) ? [Y/n]:" import_database;
     if [[ $import_database != 'n' ]]; then
 
+        database_verbose_arg="--verbose";
         read -p "Verbose mode ? [y/N]:" import_database_verbose;
-
-        database_verbose_arg='';
         if [[ $import_database != 'y' ]]; then
-            database_verbose_arg="--verbose";
+            database_verbose_arg='';
         fi;
 
         mysql ${database_verbose_arg} -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
