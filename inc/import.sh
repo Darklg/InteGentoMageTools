@@ -16,6 +16,8 @@ if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
     exit 1;
 fi;
 
+. "${SOURCEDIR}/inc/functions/test-magento-install.sh";
+
 ###################################
 ## Search if import file
 ###################################
@@ -34,3 +36,14 @@ fi;
 . "${SOURCEDIR}/inc/functions/create-database.sh";
 . "${SOURCEDIR}/inc/functions/import-database.sh";
 
+###################################
+## Default settings
+###################################
+
+. "${SOURCEDIR}/inc/functions/set-magento-settings.sh";
+
+###################################
+## Last test, to be sure.
+###################################
+
+. "${SOURCEDIR}/inc/functions/test-magento-install.sh";
