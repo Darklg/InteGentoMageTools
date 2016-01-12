@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.8.2.1
+# Mage Tools v 0.9
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2015 Darklg
@@ -23,6 +23,11 @@ case "$1" in
         echo "## IMPORT";
         . "${SOURCEDIR}/inc/import.sh";
         . "${SOURCEDIR}/inc/empty-cache.sh";
+    ;;
+    'permissions')
+        echo "## Permissions";
+        . "${SOURCEDIR}/inc/empty-cache.sh";
+        . "${SOURCEDIR}/inc/functions/set-magento-permissions.sh";
     ;;
     'cache' | *)
         echo "## CACHE";
