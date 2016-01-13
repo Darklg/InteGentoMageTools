@@ -23,3 +23,10 @@ if [[ $mysql__password_pass != 'n' ]]; then
     mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE admin_user SET password=CONCAT(MD5('qXpassword'), ':qX') WHERE username='admin';";
     echo "-- Admin ids are now 'admin:password";
 fi;
+
+# - Cache
+read -p "Set a cache config optimized for Front-End [Y/n]: " mysql__set_cache_config;
+if [[ $mysql__disable_merge != 'n' ]]; then
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};update core_cache_option set value=1 WHERE code IN('config','config_api','config_api2','eav','collections');";
+    echo "-- Setting cache config";
+fi;
