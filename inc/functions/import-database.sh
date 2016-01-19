@@ -12,7 +12,7 @@ if [[ $database_file_exists != '0' ]]; then
 
         database_verbose_arg="--verbose";
         read -p "Verbose mode ? [y/N]:" import_database_verbose;
-        if [[ $import_database != 'y' ]]; then
+        if [[ $import_database_verbose != 'y' ]]; then
             database_verbose_arg='';
         fi;
 
