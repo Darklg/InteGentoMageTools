@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Mage Tools v 0.9.4
+# Mage Tools v 0.10
 #
 # @author      Darklg <darklg.blog@gmail.com>
-# @copyright   Copyright (c) 2015 Darklg
+# @copyright   Copyright (c) 2016 Darklg
 # @license     MIT
 
 SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
@@ -28,6 +28,10 @@ case "$1" in
         echo "## Permissions";
         . "${SOURCEDIR}/inc/empty-cache.sh";
         . "${SOURCEDIR}/inc/functions/set-magento-permissions.sh";
+    ;;
+    'debug')
+        echo "## Debug";
+        . "${SOURCEDIR}/inc/debug.sh";
     ;;
     'cache' | *)
         echo "## CACHE";
