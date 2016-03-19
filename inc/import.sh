@@ -4,7 +4,12 @@
 ## Test install & Get infos
 ###################################
 
-. "${SOURCEDIR}/inc/functions/test-getinfos.sh";
+if [ ! -f app/etc/local.xml ]; then
+    echo "Only use import on installed Magento installations. (no local.xml)";
+    exit 1;
+fi;
+
+. "${SOURCEDIR}/inc/functions/extract-infos.sh";
 
 ###################################
 ## Search if import file
