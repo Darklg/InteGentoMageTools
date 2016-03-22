@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.11
+# Mage Tools v 0.12
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -57,6 +57,10 @@ case "$1" in
     'debug')
         echo "## Debug";
         . "${SOURCEDIR}/inc/debug.sh";
+    ;;
+    'help')
+        echo "## HELP";
+        . "${SOURCEDIR}/inc/help.sh";
     ;;
     'cache' | *)
         echo "## CACHE";
