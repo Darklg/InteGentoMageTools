@@ -27,6 +27,6 @@ fi;
 # - Cache
 read -p "Set a cache config optimized for Front-End [Y/n]: " mysql__set_cache_config;
 if [[ $mysql__disable_merge != 'n' ]]; then
-    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};update core_cache_option set value=1 WHERE code IN('config','config_api','config_api2','eav','collections');";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};update core_cache_option set value=0 WHERE code in('block_html','layout','translate');update core_cache_option set value=1 WHERE code IN('config','config_api','config_api2','eav','collections');";
     echo "-- Setting cache config";
 fi;
