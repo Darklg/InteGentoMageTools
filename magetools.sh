@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.12
+# Mage Tools v 0.12.1
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -13,12 +13,12 @@ SCRIPTSTARTDIR="$( pwd )/";
 ###################################
 
 ismagento='n';
+SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
 for (( c=1; c<=10; c++ )); do
     if [ ! -f "api.php" ]; then
         cd ..;
         echo ".";
         SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
-        EXECDIR="$( cd "${SOURCEDIR}" && pwd )/";
     else
         if [ $c != 1 ]; then
             echo ". Found a Magento root dir";
