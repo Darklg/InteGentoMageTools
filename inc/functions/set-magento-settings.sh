@@ -10,6 +10,10 @@ mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_
 echo "-- Add checkmo payment method";
 mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value = '1' WHERE path = 'payment/checkmo/active';";
 
+echo "-- Setting watermark adapter to GD";
+mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='GD2' WHERE path IN('design/watermark_adapter/adapter');";
+
+
 # - Merge Assets
 read -p "Disable JS/CSS merge ? [Y/n]: " mysql__disable_merge;
 if [[ $mysql__disable_merge != 'n' ]]; then
@@ -20,8 +24,8 @@ fi;
 # - Default admin pass
 read -p "Set password value to 'password' for admin user [Y/n]: " mysql__password_pass;
 if [[ $mysql__password_pass != 'n' ]]; then
-    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE admin_user SET password=CONCAT(MD5('qXpassword'), ':qX') WHERE username='admin';";
-    echo "-- Admin ids are now 'admin:password";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE admin_user SET password=CONCAT(MD5('qXpassword'), ':qX') WHERE username='admin' OR user_id=1;";
+    echo "-- Admin ids are now 'admin:password'";
 fi;
 
 # - Cache
