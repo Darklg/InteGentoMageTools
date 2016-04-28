@@ -1,5 +1,11 @@
 #!/bin/bash
 
+read -p "Start install ? [Y/n]: " start_install;
+if [[ $start_install == 'n' ]]; then
+    echo "- Install cancelled.";
+    return;
+fi;
+
 random_project_id=$(( ( RANDOM % 10000 )  + 1 ));
 
 . "${SOURCEDIR}/inc/functions/add-default-files.sh";
@@ -22,7 +28,7 @@ fi;
 create_database='n';
 if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
     echo "- Database ${project_id} does not exist.";
-    read -p "Create database ? [Y/n]:" create_database;
+    read -p "Create database ? [Y/n]: " create_database;
     if [[ $create_database != 'n' ]]; then
         . "${SOURCEDIR}/inc/functions/create-database.sh";
     fi;

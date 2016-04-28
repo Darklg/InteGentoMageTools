@@ -1,5 +1,11 @@
 #!/bin/bash
 
+read -p "Start import ? [Y/n]: " start_import;
+if [[ $start_import == 'n' ]]; then
+    echo "- Import cancelled.";
+    return;
+fi;
+
 ###################################
 ## Test install & Get infos
 ###################################

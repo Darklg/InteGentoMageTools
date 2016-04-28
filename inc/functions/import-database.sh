@@ -6,17 +6,20 @@
 
 # Import dump.sql file if available
 if [[ $database_file_exists != '0' ]]; then
-    database_file_size=$(du -h "${database_file_import}" | cut -f 1);
-    read -p "Import database file '${database_file_import}' - ${database_file_size} ? [Y/n]:" import_database;
-    if [[ $import_database != 'n' ]]; then
+    for f in $(ls *.sql 2>/dev/null); do
+        database_file_import="${f}";
+        database_file_size=$(du -h "${database_file_import}" | cut -f 1);
+        read -p "Import database file '${database_file_import}' - ${database_file_size} ? [Y/n]: " import_database;
+        if [[ $import_database != 'n' ]]; then
+            database_verbose_arg="--verbose";
+            read -p "Verbose mode ? [y/N]: " import_database_verbose;
+            if [[ $import_database_verbose != 'y' ]]; then
+                database_verbose_arg='';
+            fi;
 
-        database_verbose_arg="--verbose";
-        read -p "Verbose mode ? [y/N]:" import_database_verbose;
-        if [[ $import_database_verbose != 'y' ]]; then
-            database_verbose_arg='';
+            mysql ${database_verbose_arg} -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
+            echo "-- Database imported from '${database_file_import}'";
+            break 1;
         fi;
-
-        mysql ${database_verbose_arg} -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
-        echo "-- Database imported from '${database_file_import}'";
-    fi;
+    done;
 fi;
