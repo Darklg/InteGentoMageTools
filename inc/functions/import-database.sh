@@ -19,6 +19,13 @@ if [[ $database_file_exists != '0' ]]; then
 
             mysql ${database_verbose_arg} -u ${mysql_user} -p${mysql_pass} ${project_id} < ${database_file_import};
             echo "-- Database imported from '${database_file_import}'";
+
+            read -p "Delete import file ? [y/N]: " delete_import_file;
+            if [[ $delete_import_file != 'n' ]]; then
+                rm "${database_file_import}";
+                echo "-- Import file deleted";
+            fi;
+
             break 1;
         fi;
     done;
