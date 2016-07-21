@@ -5,7 +5,19 @@
 ###################################
 
 echo "-- Setting base URL";
-mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}' WHERE path IN('web/unsecure/base_url','web/secure/base_url');";
+mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}' WHERE path IN('web/unsecure/base_url', 'web/unsecure/base_link_url');";
+mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}skin/' WHERE path = 'web/unsecure/base_skin_url';";
+mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}media/' WHERE path = 'web/unsecure/base_media_url';";
+mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}js/' WHERE path = 'web/unsecure/base_js_url';";
+
+read -p "Set secure base URL ? [y/N]: " mysql__securebaseurl;
+if [[ $mysql__securebaseurl == 'y' ]]; then
+    echo "-- Setting secure base URL";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}' WHERE path IN('web/secure/base_url','web/secure/base_link_url');";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}skin/' WHERE path = 'web/secure/base_skin_url';";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}media/' WHERE path = 'web/secure/base_media_url';";
+    mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}js/' WHERE path = 'web/secure/base_js_url';";
+fi;
 
 echo "-- Add checkmo payment method";
 mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value = '1' WHERE path = 'payment/checkmo/active';";

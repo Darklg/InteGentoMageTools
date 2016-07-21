@@ -7,3 +7,4 @@ Shell Tools for Magento :
 - "magetools permissions" : Set permissions.
 - "magetools debug" : Activate template hints for 15 secondes.
 - "magetools cache" : Empty cache.
+- "magetools settings" : Set default settings.
