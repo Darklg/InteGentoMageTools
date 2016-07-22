@@ -12,3 +12,6 @@ mysql_user=$(sed -ne '/username/{s/.*<username><\!\[CDATA\[\(.*\)\]\]><\/usernam
 echo "- MySQL user is : '${mysql_user}'.";
 mysql_pass=$(sed -ne '/password/{s/.*<password><\!\[CDATA\[\(.*\)\]\]><\/password>.*/\1/p;q;}' <<< "$datalocal");
 echo "- MySQL pass is : '${mysql_pass}'.";
+
+# Cache config
+. "${SOURCEDIR}/inc/functions/set-mysql-file.sh";

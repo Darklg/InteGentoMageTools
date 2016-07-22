@@ -32,3 +32,6 @@ echo "- Set values in local.xml";
 sed -i '' "s/INTEGENTODBNAME/${project_id}/" "app/etc/local.xml";
 sed -i '' "s/INTEGENTOUSERNAME/${mysql_user}/" "app/etc/local.xml";
 sed -i '' "s/INTEGENTOPASSWORD/${mysql_pass}/" "app/etc/local.xml";
+
+# Cache config
+. "${SOURCEDIR}/inc/functions/set-mysql-file.sh";

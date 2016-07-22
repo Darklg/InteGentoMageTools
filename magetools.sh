@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.13
+# Mage Tools v 0.14
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -74,4 +74,4 @@ case "$1" in
     ;;
 esac
 
-
+. "${SOURCEDIR}/inc/functions/clean-magetools.sh";

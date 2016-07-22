@@ -4,7 +4,7 @@
 ## Test Magento Install
 ###################################
 
-if [ $(mysql -N -s -u ${mysql_user} -p${mysql_pass} -e \
+if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
     "select count(*) from information_schema.tables where \
         table_schema='${project_id}' and table_name='core_config_data';") -eq 1 ]; then
     echo "- Magento seems to be installed.";

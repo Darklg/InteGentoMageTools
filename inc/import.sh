@@ -12,7 +12,7 @@ fi;
 
 if [ ! -f app/etc/local.xml ]; then
     echo "Only use import on installed Magento installations. (no local.xml)";
-    exit 1;
+    . "${SOURCEDIR}/inc/functions/stop-magetools.sh";
 fi;
 
 . "${SOURCEDIR}/inc/functions/extract-infos.sh";
@@ -24,7 +24,7 @@ fi;
 . "${SOURCEDIR}/inc/functions/search-import-file.sh";
 if [[ $database_file_exists == '0' ]]; then
     echo "No import file has been found.";
-    exit 1;
+    . "${SOURCEDIR}/inc/functions/stop-magetools.sh";
 fi;
 
 ###################################

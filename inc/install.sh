@@ -26,7 +26,7 @@ fi;
 
 # Create database
 create_database='n';
-if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
+if [[ -z "`mysql --defaults-extra-file=my-magetools.cnf -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='${project_id}'" 2>&1`" ]]; then
     echo "- Database ${project_id} does not exist.";
     read -p "Create database ? [Y/n]: " create_database;
     if [[ $create_database != 'n' ]]; then
@@ -40,13 +40,13 @@ if [[ $create_database != 'n' ]]; then
     . "${SOURCEDIR}/inc/functions/import-database.sh";
 fi;
 
-if ! mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id}"; then
+if [[ -z "`mysql --defaults-extra-file=my-magetools.cnf -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='${project_id}'" 2>&1`" ]]; then
     echo "- Database '${project_id}' still does not exist.";
-    exit 1;
+    . "${SOURCEDIR}/inc/functions/stop-magetools.sh";
 else
     echo "- Database '${project_id}' does exist.";
     . "${SOURCEDIR}/inc/functions/test-magento-install.sh";
     . "${SOURCEDIR}/inc/functions/set-magento-settings.sh";
-fi
+fi;
 
 . "${SOURCEDIR}/inc/functions/set-magento-permissions.sh";

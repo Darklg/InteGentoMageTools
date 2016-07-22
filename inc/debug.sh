@@ -12,7 +12,7 @@ echo "-- Get infos";
 ###################################
 
 echo "-- Setting debug";
-mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='1' WHERE path IN('dev/debug/template_hints','dev/debug/template_hints_blocks');";
+mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='1' WHERE path IN('dev/debug/template_hints','dev/debug/template_hints_blocks');";
 
 ###################################
 ## Empty cache
@@ -36,7 +36,7 @@ done
 ###################################
 
 echo "-- Unsetting debug";
-mysql -u ${mysql_user} -p${mysql_pass} -e "use ${project_id};UPDATE core_config_data SET value='0' WHERE path IN('dev/debug/template_hints','dev/debug/template_hints_blocks');";
+mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='0' WHERE path IN('dev/debug/template_hints','dev/debug/template_hints_blocks');";
 
 ###################################
 ## Empty cache
