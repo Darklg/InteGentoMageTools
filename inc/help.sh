@@ -13,6 +13,11 @@ import :
 - Import a sql file.
 - Add default settings.
 
+update :
+- update a module : (magetools update Myproject/Cms [config/block/page])
+- create the correct file for version update.
+- Load a template (config/block/page).
+
 permissions :
 - Set file permissions
 
