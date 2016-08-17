@@ -26,6 +26,11 @@ module_conf_content=`cat ${conf_file}`;
 module_version=$(sed -ne '/\<version/{s/.*<version>\(.*\)<\/version>.*/\1/p;q;}' <<< "${module_conf_content}");
 echo "- Module in version ${module_version}";
 
+if [ ! -d "${module_path}/data" ];then
+    echo "The module do not have a data directory";
+    return;
+fi;
+
 # Increment version - thx http://stackoverflow.com/a/6245983
 module_version2=`echo $module_version | ( IFS=".$IFS" ; read a b c && echo $a.$b.$((c + 1)) )`
 
