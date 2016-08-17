@@ -39,13 +39,19 @@ do
     update_file="${dir}/${update_file_name}";
 done;
 
+# Check file
+if [ -f "${update_file}" ];then
+    echo "- The update file for v ${module_version2} already exists";
+    return;
+fi;
+
 # Confirm creation !
-echo "${update_file_name} has been created";
 touch "${update_file}";
+echo "- ${update_file_name} has been created";
 
 # If argument with type
-if [[ ${type_update_available} == *"$2"* ]];then
-    magetools_load_update_template $2;
+if [[ ! -z "$2" && ${type_update_available} == *"$2"* ]];then
+    magetools_load_update_template "${2}";
     return;
 fi
 
