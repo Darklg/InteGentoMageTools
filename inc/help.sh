@@ -3,26 +3,35 @@
 echo "
 COMMANDS
 
-install :
+magetools install :
 - Import a sql file.
-- Add default settings.
+- Set default settings.
 - Add default files ( local.xml / index.php / .htaccess )
-- Set file permissions
+- Set file permissions.
+- Empty cache.
 
-import :
+magetools import :
 - Import a sql file.
-- Add default settings.
+- Set default settings.
+- Set file permissions.
+- Empty cache.
 
-update :
-- update a module : (magetools update Myproject/Cms [config/block/page])
-- create the correct file for version update.
-- Load a template (config/block/page).
+magetools update ( Myproject/Cms [config/block/page/agreement] ):
+- Update a module : (magetools update )
+- Create the correct file for version update.
+- Load a template (config/block/page/agreement).
 
-permissions :
-- Set file permissions
+magetools cache : (Default)
+- Empty cache.
 
-debug :
-- Enable template hints for 15 seconds
+magetools settings :
+- Set default settings.
 
-cache : (Default)
-- Empty cache";
+magetools permissions :
+- Set file permissions.
+
+magetools debug :
+- Enable template hints for 15 seconds.
+
+magetools help :
+- Display the help.
