@@ -1,6 +1,6 @@
 <?php
 /**
- * Installer.
+ * Installer Block CMS.
  */
 
 try {

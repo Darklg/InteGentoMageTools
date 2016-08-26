@@ -1,6 +1,6 @@
 <?php
 /**
- * Installer.
+ * Installer CMS Page.
  */
 
 try {

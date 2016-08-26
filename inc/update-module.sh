@@ -1,6 +1,6 @@
 #!/bin/bash
 
-type_update_available="config block page";
+type_update_available="config block page agreement";
 
 function magetools_load_update_template {
     rm "${update_file}";
@@ -57,15 +57,19 @@ echo "- ${update_file_name} has been created";
 # If argument with type
 if [[ ! -z "$2" && ${type_update_available} == *"$2"* ]];then
     magetools_load_update_template "${2}";
-    return;
+else
+    # Check all
+    for type_update in ${type_update_available}; do
+        is_update='n';
+        read -p "Is it a '${type_update}' update ? [Y/n]: " is_update;
+        if [[ $is_update != 'n' ]]; then
+            magetools_load_update_template ${type_update};
+            break;
+        fi;
+    done;
 fi
 
-# Check all
-for type_update in ${type_update_available}; do
-    is_update='n';
-    read -p "Is it a '${type_update}' update ? [Y/n]: " is_update;
-    if [[ $is_update != 'n' ]]; then
-        magetools_load_update_template ${type_update};
-        return;
-    fi;
-done;
+read -p "Open template file ? [Y/n]: " open_template;
+if [[ $open_template != 'n' ]]; then
+    open "${update_file}";
+fi;
