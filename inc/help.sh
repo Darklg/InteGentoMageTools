@@ -34,4 +34,4 @@ magetools debug :
 - Enable template hints for 15 seconds.
 
 magetools help :
-- Display the help.
+- Display the help.";

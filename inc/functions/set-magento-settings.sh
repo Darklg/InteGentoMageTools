@@ -1,5 +1,16 @@
 #!/bin/bash
 
+function magetools_setting_init_or_update {
+    tmpvalue=$(mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};SELECT value FROM core_config_data WHERE path = '${1}'" | tr -d '[\+\-\| ]');
+    if [[ $tmpvalue != '' ]]; then
+        req="use ${project_id};UPDATE core_config_data SET value = '1' WHERE path = '${1}';";
+    else
+        req="use ${project_id};INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, '${1}', '0');";
+    fi;
+    mysql --defaults-extra-file=my-magetools.cnf -e "${req}";
+}
+
+
 ###################################
 ## Magento settings
 ###################################
@@ -20,16 +31,16 @@ if [[ $mysql__securebaseurl == 'y' ]]; then
 fi;
 
 echo "-- Add checkmo payment method";
-mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value = '1' WHERE path = 'payment/checkmo/active';";
+magetools_setting_init_or_update "payment/checkmo/active" 1;
 
 echo "-- Setting watermark adapter to GD";
-mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='GD2' WHERE path IN('design/watermark_adapter/adapter');";
-
+magetools_setting_init_or_update "design/watermark_adapter/adapter" 'GD2';
 
 # - Merge Assets
 read -p "Disable JS/CSS merge ? [Y/n]: " mysql__disable_merge;
 if [[ $mysql__disable_merge != 'n' ]]; then
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET VALUE = 0 where path IN('dev/js/merge_files','dev/css/merge_css_files');";
+    magetools_setting_init_or_update "dev/js/merge_files" '0';
+    magetools_setting_init_or_update "dev/css/merge_css_files" '0';
     echo "-- JS/CSS merge is now disabled";
 fi;
 
