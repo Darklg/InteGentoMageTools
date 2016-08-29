@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.17
+# Mage Tools v 0.18
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
