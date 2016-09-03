@@ -1,6 +1,6 @@
 #!/bin/bash
 
-type_update_available="config block page agreement";
+type_update_available="config block page agreement email";
 
 function magetools_load_update_template {
     rm "${update_file}";
@@ -16,6 +16,10 @@ function magetools_config_check_xml {
     else
         sed -i '' "s/\<\/$1\>/\\<$2\>\<\/$2\><\/$1\>/" $conf_file;
     fi
+}
+
+function magetools_command_exists () {
+    type "$1" &> /dev/null ;
 }
 
 ###################################
@@ -98,6 +102,10 @@ then
     echo "<${module_id_setup}> is defined.";
 else
     sed -i '' "s/\<\/resources\>/${module_setup_content}<\/resources\>/" $conf_file;
+fi
+
+if magetools_command_exists tidy ; then
+    tidy -m -xml -indent -q $conf_file;
 fi
 
 ###################################
