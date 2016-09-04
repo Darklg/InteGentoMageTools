@@ -1,9 +1,18 @@
 <?php
 try {
-    /** @var Mage_Core_Model_Resource_Setup $installer */
-    $installer = $this;
-    $storeId = Mage::app()->getStore()->getStoreId();
-    $localeCode = 'fr_FR';
+
+    $_emailsDate = date('Y-m-d h:i:s');
+
+    $stores = Mage::app()->getStores();
+    $_stores = array();
+    foreach ($stores as $store) {
+        $_storeId = $store->getId();
+        $_stores[] = array(
+            'id' => $_storeId,
+            'locale' => Mage::getStoreConfig('general/locale/code', $_storeId)
+        );
+    }
+
     $mailModel = Mage::getModel('core/email_template');
     $_core = Mage::getSingleton('core/resource');
     $_write = $_core->getConnection('core_write');
@@ -42,69 +51,74 @@ try {
         'sales_email_order_comment_template' => array(
             'name' => '[Project] Commentaire commande',
             'path' => 'sales/order_update.html',
-            'conf' => 'sales_email/order_comment/template',
+            'conf' => 'sales_email/order_comment/template'
         ),
         'sales_email_order_template' => array(
             'name' => '[Project] Nouvelle commande',
             'path' => 'sales/order_new.html',
-            'conf' => 'sales_email/order/template',
+            'conf' => 'sales_email/order/template'
         ),
         'sales_email_shipment_comment_template' => array(
             'name' => '[Project] Commentaire livraison',
             'path' => 'sales/shipment_update.html',
-            'conf' => 'sales_email/shipment_comment/template',
+            'conf' => 'sales_email/shipment_comment/template'
         ),
         'sales_email_shipment_template' => array(
             'name' => '[Project] Nouvelle livraison',
             'path' => 'sales/shipment_new.html',
-            'conf' => 'sales_email/shipment/template',
+            'conf' => 'sales_email/shipment/template'
         ),
         'sales_email_invoice_comment_template' => array(
             'name' => '[Project] Commentaire Facture',
             'path' => 'sales/invoice_update.html',
-            'conf' => 'sales_email/invoice_comment/template',
+            'conf' => 'sales_email/invoice_comment/template'
         ),
         'sales_email_invoice_template' => array(
             'name' => '[Project] Nouvelle facture',
             'path' => 'sales/invoice_new.html',
-            'conf' => 'sales_email/invoice/template',
+            'conf' => 'sales_email/invoice/template'
         )
     );
 
     foreach ($email_templates as $key => $template) {
 
-        // Load template
-        $mailTemplate = $mailModel->loadDefault($key, $localeCode);
-        $mailTemplate->setDesignConfig(array(
-            'area' => 'frontend'
-        ));
+        foreach ($_stores as $_store) {
 
-        // Set mail template
-        $_tpl = array(
-            'template_code' => $template['name'],
-            'orig_template_code' => $key,
-            'template_text' => Mage::app()->getTranslator()->getTemplateFile($template['path'], 'email', $localeCode),
-            'template_type' => $mailTemplate->getData('template_type'),
-            'template_subject' => $mailTemplate->getData('template_subject')
-        );
+            // Load template
+            $mailTemplate = $mailModel->loadDefault($key, $_store['locale']);
+            $mailTemplate->setDesignConfig(array(
+                'area' => 'frontend'
+            ));
 
-        // Delete old template with the same name
-        $_write->delete($_tableTemplates, array(
-            'orig_template_code = ?' => $key
-        ));
+            // Set mail template
+            $_templateCode = $template['name'] . ' - ' . $_store['locale'];
+            $_tpl = array(
+                'template_code' => $_templateCode,
+                'added_at' => $_emailsDate,
+                'modified_at' => $_emailsDate,
+                'orig_template_code' => $key,
+                'template_text' => Mage::app()->getTranslator()->getTemplateFile($template['path'], 'email', $_store['locale']),
+                'template_type' => $mailTemplate->getData('template_type'),
+                'template_subject' => $mailTemplate->getData('template_subject')
+            );
 
-        // Insert new template in db
-        $_write->insert($_tableTemplates, $_tpl);
-        $_lastInsertId = $_write->lastInsertId();
+            // Delete old templates with the same name
+            $_write->delete($_tableTemplates, array(
+                'template_code = ?' => $_templateCode
+            ));
 
-        // Delete old conf for template
-        $_write->delete($_tableConfig, array(
-            "path = ?" => $template['conf']
-        ));
+            // Insert new template in db
+            $_write->insert($_tableTemplates, $_tpl);
+            $_lastInsertId = $_write->lastInsertId();
 
-        // Save new template id in conf
-        Mage::getConfig()->saveConfig($template['conf'], intval($_lastInsertId), 'stores', $storeId)->cleanCache();
+            // Delete old conf for template
+            $_write->delete($_tableConfig, array(
+                "path = ?" => $template['conf']
+            ));
 
+            // Save new template id in conf
+            Mage::getConfig()->saveConfig($template['conf'], intval($_lastInsertId), 'stores', $_store['id'])->cleanCache();
+        }
     }
 
 } catch (Exception $e) {
