@@ -111,13 +111,15 @@ try {
             $_write->insert($_tableTemplates, $_tpl);
             $_lastInsertId = $_write->lastInsertId();
 
-            // Delete old conf for template
-            $_write->delete($_tableConfig, array(
-                "path = ?" => $template['conf']
-            ));
+            if (isset($template['conf'])) {
+                // Delete old conf for template
+                $_write->delete($_tableConfig, array(
+                    "path = ?" => $template['conf']
+                ));
 
-            // Save new template id in conf
-            Mage::getConfig()->saveConfig($template['conf'], intval($_lastInsertId), 'stores', $_store['id'])->cleanCache();
+                // Save new template id in conf
+                Mage::getConfig()->saveConfig($template['conf'], intval($_lastInsertId), 'stores', $_store['id'])->cleanCache();
+            }
         }
     }
 
