@@ -114,7 +114,8 @@ try {
             if (isset($template['conf'])) {
                 // Delete old conf for template
                 $_write->delete($_tableConfig, array(
-                    "path = ?" => $template['conf']
+                    "path = ?" => $template['conf'],
+                    "scope_id = ?" => $_store['id'],
                 ));
 
                 // Save new template id in conf

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.20.1
+# Mage Tools v 0.20.2
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -72,9 +72,14 @@ case "$1" in
         echo "## HELP";
         . "${SOURCEDIR}/inc/help.sh";
     ;;
-    'cache' | *)
+    'cache' | '')
         echo "## CACHE";
         . "${SOURCEDIR}/inc/empty-cache.sh";
+    ;;
+    *)
+        echo "## ERROR";
+        echo "- The command '${1}' does not exists !";
+        echo '- Please try "magetools help" if you need a reminder.';
     ;;
 esac
 
