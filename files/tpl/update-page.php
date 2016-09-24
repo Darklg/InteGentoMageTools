@@ -26,6 +26,7 @@ try {
         'root_template' => 'one_column',
         'identifier' => 'default-id',
         'content' => '',
+        'layout_update_xml' => '',
         'is_active' => true,
         'stores' => array(Mage_Core_Model_App::ADMIN_STORE_ID),
         'sort_order' => 0
@@ -57,4 +58,7 @@ try {
 
 } catch (Exception $e) {
     Mage::logException($e);
+    if (Mage::getIsDeveloperMode()) {
+        Mage::throwException($e->getMessage());
+    }
 }

@@ -43,4 +43,7 @@ HTML;
 
 } catch (Exception $e) {
     Mage::logException($e);
+    if (Mage::getIsDeveloperMode()) {
+        Mage::throwException($e->getMessage());
+    }
 }
