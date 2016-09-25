@@ -1,6 +1,6 @@
 #!/bin/bash
 
-type_update_available="config block page agreement email";
+type_update_available="config block page email attributecat agreement";
 
 function magetools_load_update_template {
     rm "${update_file}";

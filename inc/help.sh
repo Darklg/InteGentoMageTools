@@ -16,10 +16,10 @@ magetools import :
 - Set file permissions.
 - Empty cache.
 
-magetools update ( Myproject/Cms [config/block/page/agreement/email] ):
+magetools update ( Myproject/Cms [config/block/page/agreement/email/attributecat] ):
 - Update a module : (magetools update )
 - Create the correct file for version update.
-- Load a template (config/block/page/agreement/email).
+- Load a template (config/block/page/agreement/email/attributecat).
 
 magetools cache : (Default)
 - Empty cache.
