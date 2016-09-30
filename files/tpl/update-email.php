@@ -9,23 +9,6 @@ try {
     $_emailsDate = date('Y-m-d h:i:s');
     $_projectName = 'Project';
 
-    $stores = Mage::app()->getStores();
-    $_stores = array();
-    foreach ($stores as $store) {
-        $_storeId = $store->getId();
-        $_stores[] = array(
-            'id' => $_storeId,
-            'locale' => Mage::getStoreConfig('general/locale/code', $_storeId)
-        );
-    }
-
-
-    $mailModel = Mage::getModel('core/email_template');
-    $_core = Mage::getSingleton('core/resource');
-    $_write = $_core->getConnection('core_write');
-    $_tableTemplates = $_core->getTableName('core_email_template');
-    $_tableConfig = $_core->getTableName('core_config_data');
-
     $email_templates = array(
         /* ----------------------------------------------------------
           Public
@@ -70,7 +53,7 @@ try {
             'name' => '[' . $_projectName . '] Envoi à un ami',
             'path' => 'product_share.html',
             'conf' => 'sendfriend/email/template'
-        )
+        ),
 
         /* ----------------------------------------------------------
           Sales
@@ -124,6 +107,26 @@ try {
             'conf' => 'sales_email/creditmemo/template'
         )
     );
+
+
+    /* Get stores
+    -------------------------- */
+    $stores = Mage::app()->getStores();
+    $_stores = array();
+    foreach ($stores as $store) {
+        $_storeId = $store->getId();
+        $_stores[] = array(
+            'id' => $_storeId,
+            'locale' => Mage::getStoreConfig('general/locale/code', $_storeId)
+        );
+    }
+
+    $mailModel = Mage::getModel('core/email_template');
+    $_core = Mage::getSingleton('core/resource');
+    $_write = $_core->getConnection('core_write');
+    $_tableTemplates = $_core->getTableName('core_email_template');
+    $_tableConfig = $_core->getTableName('core_config_data');
+
 
     foreach ($email_templates as $key => $template) {
 
