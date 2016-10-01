@@ -10,7 +10,7 @@ try {
             'title' => 'Page CMS Type',
             'identifier' => 'cms-type',
             'autofill_content' => true,
-            'multistore' => true
+            'integento_multistore' => true
         )
     );
 
@@ -47,8 +47,8 @@ try {
     $cmsPages = array();
     foreach ($cmsPagesToCreateData as $data) {
         /* Create one page by store */
-        if (isset($data['multistore']) && $data['multistore']) {
-            unset($data['multistore']);
+        if (isset($data['integento_multistore']) && $data['integento_multistore']) {
+            unset($data['integento_multistore']);
             foreach ($_stores as $_store) {
                 $data['stores'] = array($_store['id']);
                 $cmsPages[] = $data;
