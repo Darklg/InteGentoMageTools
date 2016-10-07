@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.25
+# Mage Tools v 0.25.1
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -38,6 +38,7 @@ fi;
 ## Routing from initial argument
 ###################################
 
+. "${SOURCEDIR}/inc/helpers.sh";
 case "$1" in
     'install')
         echo "## INSTALL";

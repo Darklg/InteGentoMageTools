@@ -1,33 +1,24 @@
 #!/bin/bash
 
-function magetools_setting_init_or_update {
-    tmpvalue=$(mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};SELECT value FROM core_config_data WHERE path = '${1}'" | tr -d '[\+\-\| ]');
-    if [[ $tmpvalue != '' ]]; then
-        req="use ${project_id};UPDATE core_config_data SET value = '${2}' WHERE path = '${1}';";
-    else
-        req="use ${project_id};INSERT INTO core_config_data (scope, scope_id, path, value) VALUES ('default', 0, '${1}', '${2}');";
-    fi;
-    mysql --defaults-extra-file=my-magetools.cnf -e "${req}";
-}
-
-
 ###################################
 ## Magento settings
 ###################################
 
 echo "-- Setting base URL";
-mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}' WHERE path IN('web/unsecure/base_url', 'web/unsecure/base_link_url');";
-mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}skin/' WHERE path = 'web/unsecure/base_skin_url';";
-mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}media/' WHERE path = 'web/unsecure/base_media_url';";
-mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{base_url}}js/' WHERE path = 'web/unsecure/base_js_url';";
+magetools_setting_init_or_update "web/unsecure/base_url" "{{base_url}}";
+magetools_setting_init_or_update "web/unsecure/base_link_url" "{{base_url}}";
+magetools_setting_init_or_update "web/unsecure/base_skin_url" "{{base_url}}skin/";
+magetools_setting_init_or_update "web/unsecure/base_media_url" "{{base_url}}media/";
+magetools_setting_init_or_update "web/unsecure/base_js_url" "{{base_url}}js/";
 
 read -p "Set secure base URL ? [y/N]: " mysql__securebaseurl;
 if [[ $mysql__securebaseurl == 'y' ]]; then
     echo "-- Setting secure base URL";
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}' WHERE path IN('web/secure/base_url','web/secure/base_link_url');";
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}skin/' WHERE path = 'web/secure/base_skin_url';";
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}media/' WHERE path = 'web/secure/base_media_url';";
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id};UPDATE core_config_data SET value='{{secure_base_url}}js/' WHERE path = 'web/secure/base_js_url';";
+    magetools_setting_init_or_update "web/secure/base_url" "{{secure_base_url}}";
+    magetools_setting_init_or_update "web/secure/base_link_url" "{{secure_base_url}}";
+    magetools_setting_init_or_update "web/secure/base_skin_url" "{{secure_base_url}}skin/";
+    magetools_setting_init_or_update "web/secure/base_media_url" "{{secure_base_url}}media/";
+    magetools_setting_init_or_update "web/secure/base_js_url" "{{secure_base_url}}js/";
 fi;
 
 echo "-- Add checkmo payment method";
