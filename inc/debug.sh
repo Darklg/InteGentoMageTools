@@ -26,11 +26,16 @@ echo "-- Emptying cache";
 ## Sleep for 15 seconds
 ###################################
 
-for i in {15..1}
-do
-   echo "... You have $i second(s) to reload your page.";
-   sleep 1;
-done
+debugtimer=15;
+if [ ${2} != '' ]; then
+    debugtimer=${2};
+fi;
+
+while [ "$debugtimer" -gt 0 ]; do
+    echo "... You have $debugtimer second(s) to reload your page.";
+    debugtimer=$(($debugtimer - 1));
+    sleep 1;
+done;
 
 ###################################
 ## Unset debug

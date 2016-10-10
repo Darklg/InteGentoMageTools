@@ -29,8 +29,8 @@ magetools settings :
 magetools permissions :
 - Set file permissions.
 
-magetools debug :
-- Enable template hints for 15 seconds.
+magetools debug : (15)
+- Enable template hints for (15) seconds.
 
 magetools help :
 - Display the help.
