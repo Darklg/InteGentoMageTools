@@ -31,12 +31,19 @@ module_id=$(echo $1 | sed 's/\//_/');
 module_id_min="$(tr [A-Z] [a-z] <<< "$module_id")";
 module_id_setup="${module_id_min}_setup";
 
-# Test file
-module_path="$( pwd )/app/code/local/${1}";
+module_base_path="$( pwd )/app/code/";
+
+# Finding
+module_path="${module_base_path}local/${1}";
 conf_file="${module_path}/etc/config.xml";
 if [ ! -f "${conf_file}" ]; then
-    echo "The module does not exists";
-    return;
+    echo "The module is not in local, trying community.";
+    module_path="${module_base_path}community/${1}";
+    conf_file="${module_path}/etc/config.xml";
+    if [ ! -f "${conf_file}" ]; then
+        echo "The module does not exists";
+        return;
+    fi;
 fi;
 
 # Get version

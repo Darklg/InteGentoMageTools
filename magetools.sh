@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.25.2
+# Mage Tools v 0.25.3
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -15,7 +15,7 @@ SCRIPTSTARTDIR="$( pwd )/";
 ismagento='n';
 SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
 for (( c=1; c<=10; c++ )); do
-    if [ ! -f "api.php" ]; then
+    if [ ! -d "app" ]; then
         cd ..;
         echo ".";
         SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
