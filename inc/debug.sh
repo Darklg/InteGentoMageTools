@@ -27,9 +27,17 @@ echo "-- Emptying cache";
 ###################################
 
 debugtimer=15;
-if [ ${2} != '' ]; then
-    debugtimer=${2};
+if magetools_command_exists osascript ; then
+    debugtimer=10;
 fi;
+if [ -n "${2}" ]; then
+    debugtimer="${2}";
+fi;
+
+if magetools_command_exists osascript ; then
+    echo "-- Reloading current url in chrome";
+    osascript "${SOURCEDIR}/inc/functions/chrome-reload-url.applescript";
+fi
 
 while [ "$debugtimer" -gt 0 ]; do
     echo "... You have $debugtimer second(s) to reload your page.";

@@ -9,3 +9,7 @@ function magetools_setting_init_or_update {
     fi;
     mysql --defaults-extra-file=my-magetools.cnf -e "${req}";
 }
+
+function magetools_command_exists {
+    type "$1" &> /dev/null ;
+}
