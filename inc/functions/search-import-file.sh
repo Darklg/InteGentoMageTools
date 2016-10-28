@@ -7,7 +7,7 @@
 database_file_import="";
 database_file_exists='0';
 
-for f in $(ls *.sql.gz 2>/dev/null); do
+for f in $(ls *.{sql.gz,sql.bz2} 2>/dev/null); do
     read -p "Unzip ${f} ? [Y/n]:" unzip_sqlgz_file;
     if [[ $unzip_sqlgz_file != 'n' ]]; then
         gunzip "${f}";

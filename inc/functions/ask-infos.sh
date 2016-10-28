@@ -4,12 +4,12 @@
 ## Ask infos
 ###################################
 
-# Project ID
-read -p "Project ID : " project_id;
-if [[ $project_id == '' ]]; then
-    project_id="project-${random_project_id}";
+# MySQL base
+read -p "MySQL base : " mysql_base;
+if [[ $mysql_base == '' ]]; then
+    mysql_base="project-${random_mysql_base}";
 fi;
-echo "- Project ID is : '${project_id}'.";
+echo "- MySQL base is : '${mysql_base}'.";
 
 # Get MySQL values
 read -p "MySQL user : " mysql_user;
@@ -29,7 +29,7 @@ cp "${SOURCEDIR}files/local.xml" "app/etc/local.xml";
 
 # Set values
 echo "- Set values in local.xml";
-sed -i '' "s/INTEGENTODBNAME/${project_id}/" "app/etc/local.xml";
+sed -i '' "s/INTEGENTODBNAME/${mysql_base}/" "app/etc/local.xml";
 sed -i '' "s/INTEGENTOUSERNAME/${mysql_user}/" "app/etc/local.xml";
 sed -i '' "s/INTEGENTOPASSWORD/${mysql_pass}/" "app/etc/local.xml";
 

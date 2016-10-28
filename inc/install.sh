@@ -6,7 +6,7 @@ if [[ $start_install == 'n' ]]; then
     return;
 fi;
 
-random_project_id=$(( ( RANDOM % 10000 )  + 1 ));
+random_mysql_base=$(( ( RANDOM % 10000 )  + 1 ));
 
 . "${SOURCEDIR}/inc/functions/add-default-files.sh";
 
@@ -26,8 +26,8 @@ fi;
 
 # Create database
 create_database='n';
-if [[ -z "`mysql --defaults-extra-file=my-magetools.cnf -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='${project_id}'" 2>&1`" ]]; then
-    echo "- Database ${project_id} does not exist.";
+if [[ -z "`mysql --defaults-extra-file=my-magetools.cnf -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='${mysql_base}'" 2>&1`" ]]; then
+    echo "- Database ${mysql_base} does not exist.";
     read -p "Create database ? [Y/n]: " create_database;
     if [[ $create_database != 'n' ]]; then
         . "${SOURCEDIR}/inc/functions/create-database.sh";
@@ -40,11 +40,11 @@ if [[ $create_database != 'n' ]]; then
     . "${SOURCEDIR}/inc/functions/import-database.sh";
 fi;
 
-if [[ -z "`mysql --defaults-extra-file=my-magetools.cnf -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='${project_id}'" 2>&1`" ]]; then
-    echo "- Database '${project_id}' still does not exist.";
+if [[ -z "`mysql --defaults-extra-file=my-magetools.cnf -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='${mysql_base}'" 2>&1`" ]]; then
+    echo "- Database '${mysql_base}' still does not exist.";
     . "${SOURCEDIR}/inc/functions/stop-magetools.sh";
 else
-    echo "- Database '${project_id}' does exist.";
+    echo "- Database '${mysql_base}' does exist.";
     . "${SOURCEDIR}/inc/functions/test-magento-install.sh";
     . "${SOURCEDIR}/inc/functions/set-magento-settings.sh";
 fi;

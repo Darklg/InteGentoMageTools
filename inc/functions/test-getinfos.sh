@@ -11,7 +11,7 @@ fi;
 
 . "${SOURCEDIR}/inc/functions/extract-infos.sh";
 
-if ! mysql --defaults-extra-file=my-magetools.cnf -e "use ${project_id}"; then
+if ! mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base}"; then
     echo "Only use import on installed Magento installations. (no database connexion)";
     . "${SOURCEDIR}/inc/functions/stop-magetools.sh";
 fi;

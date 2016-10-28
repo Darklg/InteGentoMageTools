@@ -17,7 +17,7 @@ if [[ $database_file_exists != '0' ]]; then
                 database_verbose_arg='';
             fi;
 
-            mysql --defaults-extra-file=my-magetools.cnf ${database_verbose_arg} ${project_id} < ${database_file_import};
+            mysql --defaults-extra-file=my-magetools.cnf ${database_verbose_arg} ${mysql_base} < ${database_file_import};
             echo "-- Database imported from '${database_file_import}'";
 
             read -p "Delete import file ? [y/N]: " delete_import_file;

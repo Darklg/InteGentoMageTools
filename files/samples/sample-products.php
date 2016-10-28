@@ -8,6 +8,8 @@
 
 include dirname(__FILE__) . '/bootstrap.php';
 
+$_nbProducts = 5;
+
 /* ----------------------------------------------------------
   Product Provider Class
 ---------------------------------------------------------- */
@@ -50,7 +52,7 @@ class ProductProvider {
         }
         $product = Mage::getModel('catalog/product');
 
-        $qty = max(0, mt_rand(10, 100) - 50);
+        $qty = max(0, mt_rand(10, 150) - 50);
         $productData = array(
             'sku' => $sku,
             'name' => 'Testproduct: ' . $sku,
@@ -90,16 +92,16 @@ $provider = new ProductProvider();
   Product Creation
 ---------------------------------------------------------- */
 
-echo "- Creating sample products\n";
+echo "-- Creating sample products\n";
 $productIds = array();
-for ($i = 1; $i <= 5; $i++) {
+for ($i = 1; $i <= $_nbProducts; $i++) {
     $tmp_id = 'TEST_' . str_replace(array(' ', '.'), '', microtime());
-    echo "Creating sample product #" . $i . " with SKU " . $tmp_id . "\n";
     $productIds[] = $provider->createDummyProduct($tmp_id, array('name' => 'Test Product ' . $i));
+    echo "- Sample product #" . $i . " with SKU " . $tmp_id . "\n";
 }
 
 /* ----------------------------------------------------------
   Success
 ---------------------------------------------------------- */
 
-echo "- Successfully created 5 sample products\n";
+echo "- Successfully created " . $_nbProducts . " sample products\n";
