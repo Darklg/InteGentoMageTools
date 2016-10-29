@@ -2,7 +2,7 @@
 
 read -p "Start install ? [Y/n]: " start_install;
 if [[ $start_install == 'n' ]]; then
-    echo "- Install cancelled.";
+    echo -e "${CLR_RED}Install cancelled.${CLR_DEF}";
     return;
 fi;
 

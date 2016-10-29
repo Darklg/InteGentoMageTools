@@ -9,20 +9,20 @@ read -p "MySQL base : " mysql_base;
 if [[ $mysql_base == '' ]]; then
     mysql_base="project-${random_mysql_base}";
 fi;
-echo "- MySQL base is : '${mysql_base}'.";
+echo -e "- MySQL base is : ${CLR_GREEN}${mysql_base}${CLR_DEF}.";
 
 # Get MySQL values
 read -p "MySQL user : " mysql_user;
 if [[ $mysql_user == '' ]]; then
     mysql_user='root';
 fi;
-echo "- MySQL user is : '${mysql_user}'.";
+echo -e "- MySQL user is : ${CLR_GREEN}${mysql_user}${CLR_DEF}.";
 
 read -p "MySQL pass : " mysql_pass;
 if [[ $mysql_pass == '' ]]; then
     mysql_pass='root';
 fi;
-echo "- MySQL pass is : '${mysql_pass}'.";
+echo -e "- MySQL pass is : ${CLR_GREEN}${mysql_pass}${CLR_DEF}.";
 
 echo "- Add default local.xml";
 cp "${SOURCEDIR}files/local.xml" "app/etc/local.xml";

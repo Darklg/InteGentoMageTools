@@ -1,37 +1,37 @@
 #!/bin/bash
 
-echo "
-COMMANDS
+echo -e "
+MAGETOOLS COMMANDS
 
-magetools install :
+${CLR_GREEN}magetools install :${CLR_DEF}
 - Import a sql file.
 - Set default settings.
 - Add default files ( local.xml / index.php / .htaccess )
 - Set file permissions.
 - Empty cache.
 
-magetools import :
+${CLR_GREEN}magetools import :${CLR_DEF}
 - Import a sql file.
 - Set default settings.
 - Set file permissions.
 - Empty cache.
 
-magetools update ( Myproject/Cms [config/block/page/agreement/email/attributecat/image] ):
-- Update a module : (magetools update )
+${CLR_GREEN}magetools update [Myproject/Cms] [config/block/page/agreement/email/attributecat/image] :${CLR_DEF}
+- Update a module : (magetools update)
 - Create the correct file for version update.
 - Load a template (config/block/page/agreement/email/attributecat/image).
 
-magetools cache : (Default)
+${CLR_GREEN}magetools cache : (Default)${CLR_DEF}
 - Empty cache.
 
-magetools settings :
+${CLR_GREEN}magetools settings :${CLR_DEF}
 - Set default settings.
 
-magetools permissions :
+${CLR_GREEN}magetools permissions :${CLR_DEF}
 - Set file permissions.
 
-magetools debug : (15)
+${CLR_GREEN}magetools debug : (15)${CLR_DEF}
 - Enable template hints for (15) seconds.
 
-magetools help :
+${CLR_GREEN}magetools help :${CLR_DEF}
 - Display the help.";

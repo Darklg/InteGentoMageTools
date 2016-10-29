@@ -1,10 +1,15 @@
 #!/bin/bash
 
-# Mage Tools v 0.27.1
+# Mage Tools v 0.28
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
 # @license     MIT
+
+CLR_BLUE='\033[34m'; # SECTION
+CLR_GREEN='\033[32m'; # MESSAGE
+CLR_RED='\033[31m'; # MESSAGE
+CLR_DEF='\033[0m'; # RESET
 
 SCRIPTSTARTDIR="$( pwd )/";
 
@@ -41,48 +46,48 @@ fi;
 . "${SOURCEDIR}/inc/helpers.sh";
 case "$1" in
     'install')
-        echo "## INSTALL";
+        echo -e "${CLR_BLUE}## INSTALL${CLR_DEF}";
         . "${SOURCEDIR}/inc/install.sh";
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'import')
-        echo "## IMPORT";
+        echo -e "${CLR_BLUE}## IMPORT${CLR_DEF}";
         . "${SOURCEDIR}/inc/import.sh";
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'settings')
-        echo "## SETTINGS";
+        echo -e "${CLR_BLUE}## SETTINGS${CLR_DEF}";
         . "${SOURCEDIR}/inc/functions/extract-infos.sh";
         . "${SOURCEDIR}/inc/functions/set-magento-settings.sh";
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'permissions')
-        echo "## Permissions";
+        echo -e "${CLR_BLUE}## Permissions${CLR_DEF}";
         . "${SOURCEDIR}/inc/empty-cache.sh";
         . "${SOURCEDIR}/inc/functions/set-magento-permissions.sh";
     ;;
     'update')
-        echo "## Update";
+        echo -e "${CLR_BLUE}## Update${CLR_DEF}";
         . "${SOURCEDIR}/inc/update-module.sh" $2 $3;
     ;;
     'sample')
-        echo "## Sample";
+        echo -e "${CLR_BLUE}## Sample${CLR_DEF}";
         . "${SOURCEDIR}/inc/sample.sh" $2 $3;
     ;;
     'debug')
-        echo "## Debug";
+        echo -e "${CLR_BLUE}## Debug${CLR_DEF}";
         . "${SOURCEDIR}/inc/debug.sh";
     ;;
     'help')
-        echo "## HELP";
+        echo -e "${CLR_BLUE}## HELP${CLR_DEF}";
         . "${SOURCEDIR}/inc/help.sh";
     ;;
     'cache' | '')
-        echo "## CACHE";
+        echo -e "${CLR_BLUE}## CACHE${CLR_DEF}";
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     *)
-        echo "## ERROR";
+        echo -e "${CLR_BLUE}## ERROR${CLR_DEF}";
         echo "- The command '${1}' does not exists !";
         echo '- Please try "magetools help" if you need a reminder.';
     ;;
