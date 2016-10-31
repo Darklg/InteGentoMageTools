@@ -6,7 +6,7 @@
 
 if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
     "select count(*) from information_schema.tables where \
-        table_schema='${mysql_base}' and table_name='core_confazig_data';") -eq 1 ]; then
+        table_schema='${mysql_base}' and table_name='core_config_data';") -eq 1 ]; then
     echo "- Magento seems to be installed.";
 else
     echo -e "${CLR_RED}------";

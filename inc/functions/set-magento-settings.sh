@@ -38,7 +38,7 @@ fi;
 # - Default admin pass
 read -p "Set password value to 'password' for admin user [Y/n]: " mysql__password_pass;
 if [[ $mysql__password_pass != 'n' ]]; then
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE admin_user SET password=CONCAT(MD5('qXpassword'), ':qX') WHERE username='admin' OR user_id=1;";
+    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE admin_user SET username='admin', password=CONCAT(MD5('qXpassword'), ':qX') WHERE username='admin' OR user_id=1;";
     echo "-- Admin ids are now 'admin:password'";
 fi;
 
