@@ -1,20 +1,10 @@
 <?php
-/**
- * Create Sample Products
- *
- * Original code by Giel Berkers (@kanduvisla)
- * https://gielberkers.com/generating-dummy-products-for-unit-tests-in-magento/
- */
-
-include dirname(__FILE__) . '/bootstrap.php';
-
-$_nbProducts = 5;
 
 /* ----------------------------------------------------------
-  Product Provider Class
+  Magento Provider Class
 ---------------------------------------------------------- */
 
-class ProductProvider {
+class IntegentoProvider {
     /**
      * @var int Default tax class ID to provide for dummy products
      */
@@ -35,6 +25,8 @@ class ProductProvider {
      * @param string $sku The SKU of the product
      * @param array $additionalData An array with (additional) data
      * @return int The Product ID of the newly created product
+     * Original code by Giel Berkers (@kanduvisla)
+     * https://gielberkers.com/generating-dummy-products-for-unit-tests-in-magento/
      */
     public static function createDummyProduct($sku, $additionalData = array()) {
         if (!self::$attributeSetId) {
@@ -80,28 +72,27 @@ class ProductProvider {
         $product->save();
         return $product->getId();
     }
+
+    /**
+     * Create a dummy category
+     * @param  string  $name     Category name
+     * @param  string  $path     Category slug
+     * @param  integer $parentId Parent Category
+     * @return integer           new Category ID
+     */
+    public static function createDummyCategory($name = 'your cat name', $path = 'your-cat-url-key', $parentId = 2) {
+
+        $category = Mage::getModel('catalog/category');
+        $category->setName($name);
+        $category->setUrlKey($path);
+        $category->setIsActive(1);
+        $category->setDisplayMode('PRODUCTS');
+        $category->setIsAnchor(1); //for active anchor
+        $category->setStoreId(Mage::app()->getStore()->getId());
+        $parentCategory = Mage::getModel('catalog/category')->load($parentId);
+        $category->setPath($parentCategory->getPath());
+        $category->save();
+
+        return $category->getId();
+    }
 }
-
-/* ----------------------------------------------------------
-  Create Object
----------------------------------------------------------- */
-
-$provider = new ProductProvider();
-
-/* ----------------------------------------------------------
-  Product Creation
----------------------------------------------------------- */
-
-echo "-- Creating sample products\n";
-$productIds = array();
-for ($i = 1; $i <= $_nbProducts; $i++) {
-    $tmp_id = 'TEST_' . str_replace(array(' ', '.'), '', microtime());
-    $productIds[] = $provider->createDummyProduct($tmp_id, array('name' => 'Test Product ' . $i));
-    echo "- Sample product #" . $i . " with SKU " . $tmp_id . "\n";
-}
-
-/* ----------------------------------------------------------
-  Success
----------------------------------------------------------- */
-
-echo "- Successfully created " . $_nbProducts . " sample products\n";
