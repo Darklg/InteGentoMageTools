@@ -73,6 +73,20 @@ class IntegentoProvider {
         return $product->getId();
     }
 
+    public static function setProductLinksFromArray($productId = 0, $products = array()) {
+        $_productApi = Mage::getSingleton('catalog/product_link_api');
+        if (empty($products)) {
+            return false;
+        }
+        foreach ($products as $crossProductId) {
+            if ($crossProductId != $productId) {
+                $_productApi->assign('related', $productId, $crossProductId);
+                $_productApi->assign('up_sell', $productId, $crossProductId);
+                $_productApi->assign('cross_sell', $productId, $crossProductId);
+            }
+        }
+    }
+
     /**
      * Create a dummy category
      * @param  string  $name     Category name
