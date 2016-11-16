@@ -3,7 +3,12 @@
 include dirname(__FILE__) . '/bootstrap.php';
 include dirname(__FILE__) . '/provider.php';
 
+$options = getopt("n::");
+
 $_nbProducts = 10;
+if (isset($options['n']) && is_numeric($options['n'])) {
+    $_nbProducts = $options['n'];
+}
 
 /* ----------------------------------------------------------
   Create Object
@@ -15,7 +20,7 @@ $provider = new IntegentoProvider();
   Product Creation
 ---------------------------------------------------------- */
 
-echo "-- Creating sample products\n";
+echo "-- Creating " . $_nbProducts . " sample products\n";
 $productIds = array();
 try {
     for ($i = 1; $i <= $_nbProducts; $i++) {

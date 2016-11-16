@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.30
+# Mage Tools v 0.31
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -73,6 +73,7 @@ case "$1" in
     'sample')
         echo -e "${CLR_BLUE}## Sample${CLR_DEF}";
         . "${SOURCEDIR}/inc/sample.sh" $2 $3;
+        . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'debug')
         echo -e "${CLR_BLUE}## Debug${CLR_DEF}";

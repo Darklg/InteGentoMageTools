@@ -5,11 +5,6 @@
 
 try {
 
-    $_core = Mage::getSingleton('core/resource');
-    $_write = $_core->getConnection('core_write');
-    $_tableAgreements = $_core->getTableName('checkout_agreement');
-    $_tableAgreementStore = $_core->getTableName('checkout_agreement_store');
-
     $agreements_templates = array(
         array(
             'name' => '[Project] Default CGV',
@@ -19,6 +14,15 @@ try {
             'is_html' => 1
         )
     );
+
+    /* ----------------------------------------------------------
+      Core
+    ---------------------------------------------------------- */
+
+    $_core = Mage::getSingleton('core/resource');
+    $_write = $_core->getConnection('core_write');
+    $_tableAgreements = $_core->getTableName('checkout_agreement');
+    $_tableAgreementStore = $_core->getTableName('checkout_agreement_store');
 
     foreach ($agreements_templates as $key => $template) {
 

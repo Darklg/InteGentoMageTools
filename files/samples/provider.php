@@ -51,7 +51,7 @@ class IntegentoProvider {
             'description' => 'Description for ' . $sku,
             'short_description' => 'Short description for ' . $sku,
             'weight' => mt_rand(1, 15),
-            'price' => mt_rand(10, 150),
+            'price' => mt_rand(30, 150),
             'attribute_set_id' => self::$attributeSetId,
             'tax_class_id' => self::$taxClassId,
             'stock_data' => array(
@@ -65,6 +65,11 @@ class IntegentoProvider {
             'type_id' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
             'website_ids' => self::$websiteIds
         );
+        $special_price = mt_rand(10, 20);
+        if ($special_price < 15) {
+            $productData['special_price'] = $productData['price'] - $special_price;
+        }
+
         foreach ($additionalData as $key => $value) {
             $productData[$key] = $value;
         }

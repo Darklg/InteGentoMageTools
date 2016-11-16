@@ -5,19 +5,6 @@
 
 try {
 
-    /* Get stores
-    -------------------------- */
-
-    $stores = Mage::app()->getStores();
-    $_stores = array();
-    foreach ($stores as $store) {
-        $_storeId = $store->getId();
-        $_stores[] = array(
-            'id' => $_storeId,
-            'locale' => Mage::getStoreConfig('general/locale/code', $_storeId)
-        );
-    }
-
     /* Block details
     -------------------------- */
 
@@ -37,6 +24,23 @@ HTML;
             'integento_multistore' => true
         )
     );
+
+    /* Get stores
+    -------------------------- */
+
+    $stores = Mage::app()->getStores();
+    $_stores = array();
+    foreach ($stores as $store) {
+        $_storeId = $store->getId();
+        $_stores[] = array(
+            'id' => $_storeId,
+            'locale' => Mage::getStoreConfig('general/locale/code', $_storeId)
+        );
+    }
+
+    /* Install
+    -------------------------- */
+
 
     /* @var $cmsBlockModel Mage_Cms_Model_Block */
     $cmsBlockModel = Mage::getModel('cms/block');

@@ -1,6 +1,6 @@
 <?php
 /**
- * Installer Config value.
+ * Installer Image config.
  */
 
 try {
