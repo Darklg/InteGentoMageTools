@@ -27,6 +27,21 @@ magetools_setting_init_or_update "payment/checkmo/active" 1;
 echo "-- Setting watermark adapter to GD";
 magetools_setting_init_or_update "design/watermark_adapter/adapter" 'GD2';
 
+echo "-- Disable Google Analytics";
+magetools_setting_init_or_update "google/analytics/active" 0;
+
+echo "-- Delete Cookie Domain";
+mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};DELETE FROM core_config_data WHERE 'path' = 'web/cookie/cookie_domain';";
+
+# - Anonymize user database
+read -p "Anonymize user database ? [y/N]: " mysql__anonymize_db;
+if [[ $mysql__anonymize_db == 'y' ]]; then
+    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE sales_flat_order SET customer_email = CONCAT('fake___', customer_email) WHERE customer_email NOT LIKE 'fake___%';";
+    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE customer_entity SET email = CONCAT('fake___', email) WHERE email NOT LIKE 'fake___%';";
+    echo "-- Database is now anonymized";
+fi;
+
+
 # - Merge Assets
 read -p "Disable JS/CSS merge ? [Y/n]: " mysql__disable_merge;
 if [[ $mysql__disable_merge != 'n' ]]; then
