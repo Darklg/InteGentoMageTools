@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.33
+# Mage Tools v 0.34
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -8,6 +8,7 @@
 
 CLR_BLUE='\033[34m'; # SECTION
 CLR_GREEN='\033[32m'; # MESSAGE
+CLR_YELLOW='\033[33m'; # INFO
 CLR_RED='\033[31m'; # MESSAGE
 CLR_DEF='\033[0m'; # RESET
 
@@ -82,6 +83,10 @@ case "$1" in
     'help')
         echo -e "${CLR_BLUE}## HELP${CLR_DEF}";
         . "${SOURCEDIR}/inc/help.sh";
+    ;;
+    'copy' | 'cp')
+        echo -e "${CLR_BLUE}## COPY${CLR_DEF}";
+        . "${SOURCEDIR}/inc/copy.sh" $2;
     ;;
     'cache' | '')
         echo -e "${CLR_BLUE}## CACHE${CLR_DEF}";
