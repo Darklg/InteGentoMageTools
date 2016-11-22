@@ -26,24 +26,20 @@ echo "-- Emptying cache";
 ## Sleep for 15 seconds
 ###################################
 
-debugtimer=15;
-if magetools_command_exists osascript ; then
-    debugtimer=10;
-fi;
-if [ -n "${2}" ]; then
-    debugtimer="${2}";
-fi;
-
 if magetools_command_exists osascript ; then
     echo "-- Reloading current url in chrome";
     osascript "${SOURCEDIR}/inc/functions/chrome-reload-url.applescript";
+else
+    debugtimer=15;
+    if [ -n "${2}" ]; then
+        debugtimer="${2}";
+    fi;
+    while [ "$debugtimer" -gt 0 ]; do
+        echo "... You have $debugtimer second(s) to reload your page.";
+        debugtimer=$(($debugtimer - 1));
+        sleep 1;
+    done;
 fi
-
-while [ "$debugtimer" -gt 0 ]; do
-    echo "... You have $debugtimer second(s) to reload your page.";
-    debugtimer=$(($debugtimer - 1));
-    sleep 1;
-done;
 
 ###################################
 ## Unset debug

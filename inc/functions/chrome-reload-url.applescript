@@ -31,4 +31,14 @@ tell application "Google Chrome"
 	else
 		tell window 1 to make new tab with properties {URL:theUrl}
 	end if
+
+	set isloading to 1
+	repeat while isloading is not false
+		tell application "Google Chrome"
+			set isloading to loading of active tab of window 1
+		end tell
+	end repeat
+
+	return
+
 end tell
