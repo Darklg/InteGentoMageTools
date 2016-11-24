@@ -1,5 +1,19 @@
 #!/bin/bash
 
+###################################
+## Coupons
+###################################
+
+if [[ ${1} == 'coupon' ]];then
+    echo "-- Sample Coupons";
+    php "${SOURCEDIR}/files/samples/sample-coupons.php";
+    return;
+fi;
+
+###################################
+## Products / Categories
+###################################
+
 echo "-- Sample Products";
 samples_args="";
 if [ -n "${1}" ]; then

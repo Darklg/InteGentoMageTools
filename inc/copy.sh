@@ -2,7 +2,7 @@
 
 oldfile="${1}";
 
-if [[ $oldfile == '' ]]; then
+if [[ ${oldfile} == '' ]]; then
     echo -e "${CLR_RED}- The file path is not defined.${CLR_DEF}";
     return 0;
 fi;
@@ -11,7 +11,12 @@ fi;
 ## Test file
 ###################################
 
-if [ ! -f ${1} ]; then
+if [ ! -f ${oldfile} ]; then
+    echo -e "${CLR_YELLOW}- Trying with app/design/ before file path.${CLR_DEF}";
+    oldfile="app/design/${oldfile}";
+fi;
+
+if [ ! -f ${oldfile} ]; then
     echo -e "${CLR_RED}- The original file could not be found.${CLR_DEF}";
     return 0;
 fi;
@@ -53,7 +58,7 @@ if [ ! -f $newfile ]; then
     # Ensure new dir exists
     mkdir -p "${newfiledir}";
     #
-    cp $oldfile $newfile;
+    cp ${oldfile} $newfile;
     echo -e "${CLR_GREEN}- The file has been copied.${CLR_DEF}";
 else
     echo -e "${CLR_YELLOW}- The file already exists.${CLR_DEF}";
