@@ -11,6 +11,16 @@ if [[ ${1} == 'coupon' ]];then
 fi;
 
 ###################################
+## Customer
+###################################
+
+if [[ ${1} == 'customer' ]];then
+    echo "-- Sample Customer";
+    php "${SOURCEDIR}/files/samples/sample-customers.php";
+    return;
+fi;
+
+###################################
 ## Products / Categories
 ###################################
 
