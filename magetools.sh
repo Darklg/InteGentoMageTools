@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.36
+# Mage Tools v 0.37
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -63,22 +63,29 @@ case "$1" in
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'permissions')
-        echo -e "${CLR_BLUE}## Permissions${CLR_DEF}";
+        echo -e "${CLR_BLUE}## PERMISSIONS${CLR_DEF}";
         . "${SOURCEDIR}/inc/empty-cache.sh";
         . "${SOURCEDIR}/inc/functions/set-magento-permissions.sh";
     ;;
     'update')
-        echo -e "${CLR_BLUE}## Update${CLR_DEF}";
+        echo -e "${CLR_BLUE}## UPDATE${CLR_DEF}";
         . "${SOURCEDIR}/inc/update-module.sh" $2 $3;
     ;;
     'sample')
-        echo -e "${CLR_BLUE}## Sample${CLR_DEF}";
+        echo -e "${CLR_BLUE}## SAMPLE${CLR_DEF}";
         . "${SOURCEDIR}/inc/sample.sh" $2 $3;
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'debug')
-        echo -e "${CLR_BLUE}## Debug${CLR_DEF}";
+        echo -e "${CLR_BLUE}## DEBUG${CLR_DEF}";
         . "${SOURCEDIR}/inc/debug.sh";
+    ;;
+    'reload')
+        echo -e "${CLR_BLUE}## RELOAD${CLR_DEF}";
+        . "${SOURCEDIR}/inc/empty-cache.sh";
+        if magetools_command_exists osascript ; then
+            . "${SOURCEDIR}/inc/functions/reload.sh";
+        fi;
     ;;
     'help')
         echo -e "${CLR_BLUE}## HELP${CLR_DEF}";

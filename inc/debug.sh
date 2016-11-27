@@ -27,8 +27,7 @@ echo "-- Emptying cache";
 ###################################
 
 if magetools_command_exists osascript ; then
-    echo "-- Reloading current url in chrome";
-    osascript "${SOURCEDIR}/inc/functions/chrome-reload-url.applescript";
+    . "${SOURCEDIR}/inc/functions/reload.sh";
 else
     debugtimer=15;
     if [ -n "${2}" ]; then
