@@ -26,19 +26,17 @@ echo "-- Emptying cache";
 ## Sleep for 15 seconds
 ###################################
 
-if magetools_command_exists osascript ; then
-    . "${SOURCEDIR}/inc/functions/reload.sh";
+debugtimer=15;
+if [ -n "${2}" ]; then
+    debugtimer="${2}";
+    magetools_wait_for ${debugtimer};
 else
-    debugtimer=15;
-    if [ -n "${2}" ]; then
-        debugtimer="${2}";
+    if magetools_command_exists osascript ; then
+        . "${SOURCEDIR}/inc/functions/reload.sh";
+    else
+        magetools_wait_for ${debugtimer};
     fi;
-    while [ "$debugtimer" -gt 0 ]; do
-        echo "... You have $debugtimer second(s) to reload your page.";
-        debugtimer=$(($debugtimer - 1));
-        sleep 1;
-    done;
-fi
+fi;
 
 ###################################
 ## Unset debug

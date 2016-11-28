@@ -2,26 +2,6 @@
 
 type_update_available="config block page email attributecat agreement image";
 
-function magetools_load_update_template {
-    rm "${update_file}";
-    cp "${SOURCEDIR}/files/tpl/update-${1}.php" "${update_file}";
-    echo "- Template file for '${1}' update loaded";
-    return;
-}
-
-function magetools_config_check_xml {
-    if grep -q "<$2>" "$conf_file";
-    then
-        echo "<$2> is defined.";
-    else
-        sed -i '' "s/\<\/$1\>/\\<$2\>\<\/$2\><\/$1\>/" $conf_file;
-    fi
-}
-
-function magetools_command_exists () {
-    type "$1" &> /dev/null ;
-}
-
 ###################################
 ## Get module
 ###################################
