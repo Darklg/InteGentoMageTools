@@ -54,6 +54,7 @@ $customer->setWebsiteId($websiteId)
     ->setStore($store)
     ->setFirstname($_customerName[0])
     ->setLastname($_customerName[1])
+    ->setDob('1981-01-01')
     ->setEmail($_customerEmail)
     ->setPassword($_customerEmail);
 
@@ -100,7 +101,8 @@ try {
 $_customerName = implode(' ', $_customerName);
 echo <<<EOT
 -- Creating a Customer :
-Name: $_customerName
+Name:  $_customerName
 Email: $_customerEmail
+Pass:  $_customerEmail
 
 EOT;
