@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.38.1
+# Mage Tools v 0.39
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2016 Darklg
@@ -41,44 +41,48 @@ if [ $ismagento == 'n' ]; then
 fi;
 
 ###################################
+## Load autocomplete
+###################################
+
+_magetools_options='cache copy debug help import install permissions reload sample settings update'
+complete -W "${_magetools_options}" 'magetools'
+
+###################################
 ## Routing from initial argument
 ###################################
 
 . "${SOURCEDIR}/inc/helpers.sh";
 case "$1" in
-    'install')
-        echo -e "${CLR_BLUE}## INSTALL${CLR_DEF}";
-        . "${SOURCEDIR}/inc/install.sh";
+    'cache' | '')
+        echo -e "${CLR_BLUE}## CACHE${CLR_DEF}";
         . "${SOURCEDIR}/inc/empty-cache.sh";
+    ;;
+    'copy' | 'cp')
+        echo -e "${CLR_BLUE}## COPY${CLR_DEF}";
+        . "${SOURCEDIR}/inc/copy.sh" $2;
+    ;;
+    'debug')
+        echo -e "${CLR_BLUE}## DEBUG${CLR_DEF}";
+        . "${SOURCEDIR}/inc/debug.sh";
+    ;;
+    'help')
+        echo -e "${CLR_BLUE}## HELP${CLR_DEF}";
+        . "${SOURCEDIR}/inc/help.sh";
     ;;
     'import')
         echo -e "${CLR_BLUE}## IMPORT${CLR_DEF}";
         . "${SOURCEDIR}/inc/import.sh";
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
-    'settings')
-        echo -e "${CLR_BLUE}## SETTINGS${CLR_DEF}";
-        . "${SOURCEDIR}/inc/functions/extract-infos.sh";
-        . "${SOURCEDIR}/inc/functions/set-magento-settings.sh";
+    'install')
+        echo -e "${CLR_BLUE}## INSTALL${CLR_DEF}";
+        . "${SOURCEDIR}/inc/install.sh";
         . "${SOURCEDIR}/inc/empty-cache.sh";
     ;;
     'permissions')
         echo -e "${CLR_BLUE}## PERMISSIONS${CLR_DEF}";
         . "${SOURCEDIR}/inc/empty-cache.sh";
         . "${SOURCEDIR}/inc/functions/set-magento-permissions.sh";
-    ;;
-    'update')
-        echo -e "${CLR_BLUE}## UPDATE${CLR_DEF}";
-        . "${SOURCEDIR}/inc/update-module.sh" $2 $3;
-    ;;
-    'sample')
-        echo -e "${CLR_BLUE}## SAMPLE${CLR_DEF}";
-        . "${SOURCEDIR}/inc/sample.sh" $2 $3;
-        . "${SOURCEDIR}/inc/empty-cache.sh";
-    ;;
-    'debug')
-        echo -e "${CLR_BLUE}## DEBUG${CLR_DEF}";
-        . "${SOURCEDIR}/inc/debug.sh";
     ;;
     'reload')
         echo -e "${CLR_BLUE}## RELOAD${CLR_DEF}";
@@ -87,17 +91,20 @@ case "$1" in
             . "${SOURCEDIR}/inc/functions/reload.sh";
         fi;
     ;;
-    'help')
-        echo -e "${CLR_BLUE}## HELP${CLR_DEF}";
-        . "${SOURCEDIR}/inc/help.sh";
-    ;;
-    'copy' | 'cp')
-        echo -e "${CLR_BLUE}## COPY${CLR_DEF}";
-        . "${SOURCEDIR}/inc/copy.sh" $2;
-    ;;
-    'cache' | '')
-        echo -e "${CLR_BLUE}## CACHE${CLR_DEF}";
+    'sample')
+        echo -e "${CLR_BLUE}## SAMPLE${CLR_DEF}";
+        . "${SOURCEDIR}/inc/sample.sh" $2 $3;
         . "${SOURCEDIR}/inc/empty-cache.sh";
+    ;;
+    'settings')
+        echo -e "${CLR_BLUE}## SETTINGS${CLR_DEF}";
+        . "${SOURCEDIR}/inc/functions/extract-infos.sh";
+        . "${SOURCEDIR}/inc/functions/set-magento-settings.sh";
+        . "${SOURCEDIR}/inc/empty-cache.sh";
+    ;;
+    'update')
+        echo -e "${CLR_BLUE}## UPDATE${CLR_DEF}";
+        . "${SOURCEDIR}/inc/update-module.sh" $2 $3;
     ;;
     *)
         echo -e "${CLR_BLUE}## ERROR${CLR_DEF}";
