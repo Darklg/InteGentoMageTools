@@ -41,6 +41,18 @@ if [[ $mysql__anonymize_db == 'y' ]]; then
     echo "-- Database is now anonymized";
 fi;
 
+# - Anonymize admin emails
+read -p "Anonymize admin emails ? [y/N]: " mysql__anonymize_admin_mails;
+if [[ $mysql__anonymize_admin_mails == 'y' ]]; then
+    magetools_setting_init_or_update "trans_email/ident_general/email" 'owner@example.com';
+    magetools_setting_init_or_update "trans_email/ident_sales/email" 'sales@example.com';
+    magetools_setting_init_or_update "trans_email/ident_support/email" 'support@example.com';
+    magetools_setting_init_or_update "trans_email/ident_custom1/email" 'custom1@example.com';
+    magetools_setting_init_or_update "trans_email/ident_custom2/email" 'custom2@example.com';
+    magetools_setting_init_or_update "sales_email/order/copy_to" 'sales+copy@example.com';
+    magetools_setting_init_or_update "awrma/contacts/depemail" 'support+awrma@example.com';
+    echo "-- Admin email are now anonymized";
+fi;
 
 # - Merge Assets
 read -p "Disable JS/CSS merge ? [Y/n]: " mysql__disable_merge;
@@ -51,10 +63,12 @@ if [[ $mysql__disable_merge != 'n' ]]; then
 fi;
 
 # - Default admin pass
-read -p "Set password value to 'password' for admin user [Y/n]: " mysql__password_pass;
+read -p "Set password value to 'password' for all admin users [Y/n]: " mysql__password_pass;
 if [[ $mysql__password_pass != 'n' ]]; then
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE admin_user SET username='admin', password=CONCAT(MD5('qXpassword'), ':qX') WHERE username='admin' OR user_id=1;";
-    echo "-- Admin ids are now 'admin:password'";
+    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE admin_user SET password=CONCAT(MD5('qXpassword'), ':qX')";
+    adminid=$(echo "use ${mysql_base};SELECT username FROM admin_user LIMIT 0,1" | mysql --defaults-extra-file=my-magetools.cnf)
+    adminid=$(echo $adminid | cut -d " " -f 2);
+    echo -e "-- Admin ids are now ${CLR_GREEN}'${adminid}:password'${CLR_DEF}";
 fi;
 
 # - Cache

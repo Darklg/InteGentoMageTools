@@ -1,6 +1,7 @@
 #!/bin/bash
 
 oldfile="${1}";
+oldfileoriginal="${1}";
 
 if [[ ${oldfile} == '' ]]; then
     echo -e "${CLR_RED}- The file path is not defined.${CLR_DEF}";
@@ -11,14 +12,23 @@ fi;
 ## Test file
 ###################################
 
+pathtest="app/design app/design/frontend app/design/frontend/base app/design/frontend/base/default app/design/frontend/base/default/template";
 if [ ! -f ${oldfile} ]; then
-    echo -e "${CLR_YELLOW}- Trying with app/design/ before file path.${CLR_DEF}";
-    oldfile="app/design/${oldfile}";
+for f in ${pathtest}; do
+    if [ ! -f ${oldfile} ]; then
+        echo -e "${CLR_YELLOW}- Trying with ${f} before file path.${CLR_DEF}";
+        oldfile="${f}/${oldfileoriginal}";
+    else
+        echo "File has been found : ${oldfile}";
+    fi;
+done;
 fi;
 
 if [ ! -f ${oldfile} ]; then
     echo -e "${CLR_RED}- The original file could not be found.${CLR_DEF}";
     return 0;
+else
+    echo -e "${CLR_GREEN}- File has been found : ${oldfile}.${CLR_DEF}";
 fi;
 
 ###################################
