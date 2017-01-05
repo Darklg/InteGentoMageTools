@@ -125,6 +125,12 @@ else
     done;
 fi
 
+read -p "Update Config version ? [Y/n]: " update_config_version;
+if [[ $update_config_version != 'n' ]]; then
+    open "${update_file}";
+    sed -i '' "s/<version>${module_version}<\/version>/<version>${module_version2}<\/version>/" ${conf_file};
+fi;
+
 read -p "Open template file ? [Y/n]: " open_template;
 if [[ $open_template != 'n' ]]; then
     open "${update_file}";
