@@ -92,7 +92,18 @@ else
 fi
 
 if magetools_command_exists tidy ; then
-    tidy -m -xml -indent -q $conf_file;
+
+    # find indentation level
+    magetools_indent_level=2;
+    magetools_config_file_content=`cat ${conf_file}`;
+    case "${magetools_config_file_content}" in
+      *\ \ \ \ \<modules\>*)
+        magetools_indent_level=4;
+        ;;
+    esac
+
+    # Tidy
+    tidy -m -xml -indent --indent-spaces $magetools_indent_level -w 0 -q $conf_file;
 fi
 
 ###################################

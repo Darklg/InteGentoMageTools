@@ -19,7 +19,7 @@ for f in ${pathtest}; do
         echo -e "${CLR_YELLOW}- Trying with ${f} before file path.${CLR_DEF}";
         oldfile="${f}/${oldfileoriginal}";
     else
-        echo "File has been found : ${oldfile}";
+        break;
     fi;
 done;
 fi;
