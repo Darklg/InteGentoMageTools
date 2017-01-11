@@ -128,6 +128,7 @@ fi
 read -p "Update Config version ? [Y/n]: " update_config_version;
 if [[ $update_config_version != 'n' ]]; then
     sed -i '' "s/<version>${module_version}<\/version>/<version>${module_version2}<\/version>/" ${conf_file};
+    echo "- Config has been updated to v ${module_version2}";
 fi;
 
 read -p "Open template file ? [Y/n]: " open_template;
