@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Mage Tools v 0.41.3
+# Mage Tools v 0.42.0
 #
 # @author      Darklg <darklg.blog@gmail.com>
-# @copyright   Copyright (c) 2016 Darklg
+# @copyright   Copyright (c) 2017 Darklg
 # @license     MIT
 
 CLR_BLUE='\033[34m'; # SECTION

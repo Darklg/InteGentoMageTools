@@ -42,8 +42,8 @@ if [[ $mysql__anonymize_db == 'y' ]]; then
 fi;
 
 # - Anonymize admin emails
-read -p "Anonymize admin emails ? [y/N]: " mysql__anonymize_admin_mails;
-if [[ $mysql__anonymize_admin_mails == 'y' ]]; then
+read -p "Anonymize admin emails ? [Y/n]: " mysql__anonymize_admin_mails;
+if [[ $mysql__anonymize_admin_mails != 'n' ]]; then
     magetools_setting_init_or_update "trans_email/ident_general/email" 'owner@example.com';
     magetools_setting_init_or_update "trans_email/ident_sales/email" 'sales@example.com';
     magetools_setting_init_or_update "trans_email/ident_support/email" 'support@example.com';
@@ -62,6 +62,12 @@ if [[ $mysql__disable_merge != 'n' ]]; then
     echo "-- JS/CSS merge is now disabled";
 fi;
 
+# - Default admin URL
+magetools_setting_delete "admin/url/custom";
+magetools_setting_delete "admin/url/custom_path";
+magetools_setting_delete "admin/url/use_custom";
+magetools_setting_delete "admin/url/use_custom_path";
+
 # - Default admin pass
 read -p "Set password value to 'password' for all admin users [Y/n]: " mysql__password_pass;
 if [[ $mysql__password_pass != 'n' ]]; then
@@ -74,6 +80,6 @@ fi;
 # - Cache
 read -p "Set a cache config optimized for Front-End [Y/n]: " mysql__set_cache_config;
 if [[ $mysql__set_cache_config != 'n' ]]; then
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};update core_cache_option set value=0 WHERE code in('block_html','layout','translate');update core_cache_option set value=1 WHERE code IN('config','config_api','config_api2','eav','collections');";
+    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};update core_cache_option set value=0;update core_cache_option set value=1 WHERE code IN('config','config_api','config_api2','eav','translate','collections');";
     echo "-- Setting cache config";
 fi;

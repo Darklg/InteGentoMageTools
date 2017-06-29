@@ -10,6 +10,14 @@ function magetools_setting_init_or_update {
     mysql --defaults-extra-file=my-magetools.cnf -e "${req}";
 }
 
+function magetools_setting_delete {
+    tmpvalue=$(mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};SELECT value FROM core_config_data WHERE path = '${1}'" | tr -d '[\+\-\| ]');
+    if [[ $tmpvalue != '' ]]; then
+        req="use ${mysql_base};DELETE FROM core_config_data WHERE path = '${1}';";
+    fi;
+    mysql --defaults-extra-file=my-magetools.cnf -e "${req}";
+}
+
 function magetools_load_update_template {
     rm "${update_file}";
     cp "${SOURCEDIR}/files/tpl/update-${1}.php" "${update_file}";
