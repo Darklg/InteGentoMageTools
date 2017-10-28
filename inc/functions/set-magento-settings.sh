@@ -41,6 +41,42 @@ if [[ $mysql__anonymize_db == 'y' ]]; then
     echo "-- Database is now anonymized";
 fi;
 
+# - Clear AheadWorks Helpdesk tables
+if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
+    "select count(*) from information_schema.tables where table_schema='${mysql_base}' and table_name='aw_hdu_mailbox';") -eq 1 ]; then
+    read -p "Clear AheadWorks Helpdesk tables ? [y/N]: " mysql_clear_awhdu;
+    if [[ $mysql_clear_awhdu == 'y' ]]; then
+        mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};\
+        SET FOREIGN_KEY_CHECKS = 0;\
+        TRUNCATE TABLE aw_hdu_mailbox;\
+        TRUNCATE TABLE aw_hdu_message;\
+        TRUNCATE TABLE aw_hdu_proto;\
+        TRUNCATE TABLE aw_hdu_ticket;\
+        TRUNCATE TABLE aw_hdu_ticket_flat;\
+        SET FOREIGN_KEY_CHECKS = 1;";
+        echo "-- AheadWorks Helpdesk tables are now cleared";
+    fi;
+fi;
+
+# - Clear orders
+if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
+    "select count(*) from information_schema.tables where table_schema='${mysql_base}' and table_name='sales_flat_order';") -eq 1 ]; then
+    read -p "Clear orders ? [y/N]: " mysql_clear_orders;
+    if [[ $mysql_clear_orders == 'y' ]]; then
+        mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};
+        SET FOREIGN_KEY_CHECKS = 0;\
+        TRUNCATE TABLE sales_flat_order;\
+        TRUNCATE TABLE sales_flat_order_address;\
+        TRUNCATE TABLE sales_flat_order_grid;\
+        TRUNCATE TABLE sales_flat_order_item;\
+        TRUNCATE TABLE sales_flat_order_payment;\
+        TRUNCATE TABLE sales_flat_order_status_history;\
+        SET FOREIGN_KEY_CHECKS = 1;";
+        echo "-- Orders are now cleared";
+    fi;
+fi;
+
+
 # - Anonymize admin emails
 read -p "Anonymize admin emails ? [Y/n]: " mysql__anonymize_admin_mails;
 if [[ $mysql__anonymize_admin_mails != 'n' ]]; then
