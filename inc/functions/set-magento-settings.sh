@@ -33,14 +33,6 @@ magetools_setting_init_or_update "google/analytics/active" 0;
 echo "-- Delete Cookie Domain";
 mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};DELETE FROM core_config_data WHERE 'path' = 'web/cookie/cookie_domain';";
 
-# - Anonymize user database
-read -p "Anonymize user database ? [y/N]: " mysql__anonymize_db;
-if [[ $mysql__anonymize_db == 'y' ]]; then
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE sales_flat_order SET customer_email = CONCAT('fake___', customer_email) WHERE customer_email NOT LIKE 'fake___%';";
-    mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE customer_entity SET email = CONCAT('fake___', email) WHERE email NOT LIKE 'fake___%';";
-    echo "-- Database is now anonymized";
-fi;
-
 # - Clear AheadWorks Helpdesk tables
 if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
     "select count(*) from information_schema.tables where table_schema='${mysql_base}' and table_name='aw_hdu_mailbox';") -eq 1 ]; then
@@ -65,17 +57,71 @@ if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
     if [[ $mysql_clear_orders == 'y' ]]; then
         mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};
         SET FOREIGN_KEY_CHECKS = 0;\
+        TRUNCATE TABLE sales_flat_creditmemo;\
+        TRUNCATE TABLE sales_flat_creditmemo_comment;\
+        TRUNCATE TABLE sales_flat_creditmemo_grid;\
+        TRUNCATE TABLE sales_flat_creditmemo_item;\
+        TRUNCATE TABLE sales_flat_invoice;\
+        TRUNCATE TABLE sales_flat_invoice_comment;\
+        TRUNCATE TABLE sales_flat_invoice_grid;\
+        TRUNCATE TABLE sales_flat_invoice_item;\
         TRUNCATE TABLE sales_flat_order;\
         TRUNCATE TABLE sales_flat_order_address;\
         TRUNCATE TABLE sales_flat_order_grid;\
         TRUNCATE TABLE sales_flat_order_item;\
         TRUNCATE TABLE sales_flat_order_payment;\
         TRUNCATE TABLE sales_flat_order_status_history;\
+        TRUNCATE TABLE sales_flat_quote;\
+        TRUNCATE TABLE sales_flat_quote_address;\
+        TRUNCATE TABLE sales_flat_quote_address_item;\
+        TRUNCATE TABLE sales_flat_quote_item;\
+        TRUNCATE TABLE sales_flat_quote_item_option;\
+        TRUNCATE TABLE sales_flat_quote_payment;\
+        TRUNCATE TABLE sales_flat_quote_shipping_rate;\
+        TRUNCATE TABLE sales_flat_shipment;\
+        TRUNCATE TABLE sales_flat_shipment_comment;\
+        TRUNCATE TABLE sales_flat_shipment_grid;\
+        TRUNCATE TABLE sales_flat_shipment_item;\
+        TRUNCATE TABLE sales_flat_shipment_track;\
         SET FOREIGN_KEY_CHECKS = 1;";
         echo "-- Orders are now cleared";
     fi;
 fi;
 
+# - Clear customers
+if [ $(mysql --defaults-extra-file=my-magetools.cnf -N -s -e \
+    "select count(*) from information_schema.tables where table_schema='${mysql_base}' and table_name='sales_flat_order';") -eq 1 ]; then
+    read -p "Clear customers ? [y/N]: " mysql_clear_customers;
+    if [[ $mysql_clear_customers == 'y' ]]; then
+        mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};
+        SET FOREIGN_KEY_CHECKS = 0;\
+        TRUNCATE TABLE customer_address_entity;\
+        TRUNCATE TABLE customer_address_entity_datetime;\
+        TRUNCATE TABLE customer_address_entity_decimal;\
+        TRUNCATE TABLE customer_address_entity_int;\
+        TRUNCATE TABLE customer_address_entity_text;\
+        TRUNCATE TABLE customer_address_entity_varchar;\
+        TRUNCATE TABLE customer_eav_attribute;\
+        TRUNCATE TABLE customer_eav_attribute_website;\
+        TRUNCATE TABLE customer_entity;\
+        TRUNCATE TABLE customer_entity_datetime;\
+        TRUNCATE TABLE customer_entity_decimal;\
+        TRUNCATE TABLE customer_entity_int;\
+        TRUNCATE TABLE customer_entity_text;\
+        TRUNCATE TABLE customer_entity_varchar;\
+        TRUNCATE TABLE customer_form_attribute;\
+        SET FOREIGN_KEY_CHECKS = 1;";
+        echo "-- Customers are now cleared";
+    else
+        # - Anonymize user database
+        read -p "Anonymize user database ? [y/N]: " mysql__anonymize_db;
+        if [[ $mysql__anonymize_db == 'y' ]]; then
+            mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE sales_flat_order SET customer_email = CONCAT('fake___', customer_email) WHERE customer_email NOT LIKE 'fake___%';";
+            mysql --defaults-extra-file=my-magetools.cnf -e "use ${mysql_base};UPDATE customer_entity SET email = CONCAT('fake___', email) WHERE email NOT LIKE 'fake___%';";
+            echo "-- Database is now anonymized";
+        fi;
+    fi;
+fi;
 
 # - Anonymize admin emails
 read -p "Anonymize admin emails ? [Y/n]: " mysql__anonymize_admin_mails;
