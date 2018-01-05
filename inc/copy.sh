@@ -12,10 +12,19 @@ fi;
 ## Test file
 ###################################
 
+# Convert the absolute path to a relative path.
+if [[ ${oldfile} == *"/app/design"* ]]; then
+    MTCOPY_LONGPREFIX=${oldfile%app/design*};
+    echo -e "${CLR_GREEN}- Removing this part of the absolute path : ${MTCOPY_LONGPREFIX}${CLR_DEF}";
+    MTCOPY_LONGPREFIX=${MTCOPY_LONGPREFIX//\//\\/};
+    oldfile=$(echo "${oldfile}" | sed -e "s/${MTCOPY_LONGPREFIX}//g");
+fi
+
+# Add args before
 pathtest="app/design app/design/frontend app/design/frontend/base app/design/frontend/base/default app/design/frontend/base/default/template";
-if [ ! -f ${oldfile} ]; then
+if [ ! -f "${oldfile}" ]; then
 for f in ${pathtest}; do
-    if [ ! -f ${oldfile} ]; then
+    if [ ! -f "${oldfile}" ]; then
         echo -e "${CLR_YELLOW}- Trying with ${f} before file path.${CLR_DEF}";
         oldfile="${f}/${oldfileoriginal}";
     else
@@ -24,7 +33,7 @@ for f in ${pathtest}; do
 done;
 fi;
 
-if [ ! -f ${oldfile} ]; then
+if [ ! -f "${oldfile}" ]; then
     echo -e "${CLR_RED}- The original file could not be found.${CLR_DEF}";
     return 0;
 else
@@ -62,13 +71,13 @@ fi;
 ###################################
 
 newfile="${oldfile/$originalpath/$newpath}";
-newfiledir=$(dirname ${newfile});
+newfiledir=$(dirname "${newfile}");
 
-if [ ! -f $newfile ]; then
+if [ ! -f "${newfile}" ]; then
     # Ensure new dir exists
     mkdir -p "${newfiledir}";
-    #
-    cp ${oldfile} $newfile;
+    # Copy file
+    cp "${oldfile}" "${newfile}";
     echo -e "${CLR_GREEN}- The file has been copied.${CLR_DEF}";
 else
     echo -e "${CLR_YELLOW}- The file already exists.${CLR_DEF}";
@@ -78,7 +87,7 @@ fi;
 if magetools_command_exists subl ; then
     # - Cache
     read -p "Open in Sublime Text [Y/n]: " open_in_sublime_text;
-    if [[ $open_in_sublime_text != 'n' ]]; then
-        subl $newfile;
+    if [[ "${open_in_sublime_text}" != 'n' ]]; then
+        subl "${newfile}";
     fi;
 fi;
