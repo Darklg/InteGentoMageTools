@@ -49,7 +49,8 @@ fi;
 themeid=$(echo "use ${mysql_base};SELECT value FROM core_config_data WHERE path='design/package/name'" | mysql --defaults-extra-file=my-magetools.cnf)
 themeid=$(echo $themeid | cut -d " " -f 2);
 
-originalpath="frontend/base/default";
+oldfileparts=($(echo "${oldfile/app\/design\/frontend\//}" | tr '/' '\n'));
+originalpath="frontend/${oldfileparts[0]}/${oldfileparts[1]}";
 newpath="frontend/${themeid}/default";
 
 ###################################
