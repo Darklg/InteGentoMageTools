@@ -27,10 +27,8 @@ if [ ! -f "${conf_file}" ]; then
 fi;
 
 # Get version
-module_conf_content=`cat ${conf_file}`;
-module_version=$(sed -ne '/\<version/{s/.*<version>\(.*\)<\/version>.*/\1/p;q;}' <<< "${module_conf_content}");
+module_version=$(cat ${conf_file} | sed -n 's:.*<version>\(.*\)</version>.*:\1:p')
 echo "- Module in version ${module_version}";
-
 if [ ! -d "${module_path}/data" ];then
     mkdir "${module_path}/data";
     mkdir "${module_path}/data/${module_id_setup}";
