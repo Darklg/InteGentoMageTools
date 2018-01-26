@@ -30,7 +30,7 @@ function magetools_config_check_xml {
     then
         echo "<$2> is defined.";
     else
-        sed -i '' "s/\<\/$1\>/\\<$2\>\<\/$2\><\/$1\>/" $conf_file;
+        magetools_sed "s/\<\/$1\>/\\<$2\>\<\/$2\><\/$1\>/" $conf_file;
     fi
 }
 
@@ -49,4 +49,10 @@ function magetools_wait_for () {
         debugtimer=$(($debugtimer - 1));
         sleep 1;
     done;
+}
+
+
+function magetools_sed(){
+    sed -i.bak ${1} ${2};
+    rm "${2}.bak";
 }

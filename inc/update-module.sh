@@ -86,7 +86,7 @@ if grep -q "<${module_id_setup}>" "$conf_file";
 then
     echo "<${module_id_setup}> is defined.";
 else
-    sed -i '' "s/\<\/resources\>/${module_setup_content}<\/resources\>/" $conf_file;
+    magetools_sed "s/\<\/resources\>/${module_setup_content}<\/resources\>/" $conf_file;
 fi
 
 if magetools_command_exists tidy ; then
@@ -125,7 +125,7 @@ fi
 
 read -p "Update Config version ? [Y/n]: " update_config_version;
 if [[ $update_config_version != 'n' ]]; then
-    sed -i '' "s/<version>${module_version}<\/version>/<version>${module_version2}<\/version>/" ${conf_file};
+    magetools_sed "s/<version>${module_version}<\/version>/<version>${module_version2}<\/version>/" ${conf_file};
     echo "- Config has been updated to v ${module_version2}";
 fi;
 
