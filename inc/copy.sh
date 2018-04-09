@@ -46,24 +46,31 @@ fi;
 
 . "${SOURCEDIR}/inc/functions/extract-infos.sh";
 
-themeid=$(echo "use ${mysql_base};SELECT value FROM core_config_data WHERE path='design/package/name'" | mysql --defaults-extra-file=my-magetools.cnf)
-themeid=$(echo $themeid | cut -d " " -f 2);
+packageid=$(echo "use ${mysql_base};SELECT value FROM core_config_data WHERE path='design/package/name'" | mysql --defaults-extra-file=my-magetools.cnf)
+packageid=$(echo $packageid | cut -d " " -f 2);
+
+# Using custom package id if set
+if [[ "${2}" != "" ]]; then
+    echo -e "${CLR_YELLOW}- Using '${2}' as a package id.${CLR_DEF}";
+    packageid="${2}";
+fi;
 
 # Using custom theme id if set
-if [[ "${2}" != "" ]]; then
-    echo -e "${CLR_YELLOW}- Using '${2}' as a theme id.${CLR_DEF}";
-    themeid="${2}";
+themeid='default';
+if [[ "${3}" != "" ]]; then
+    echo -e "${CLR_YELLOW}- Using '${3}' as a theme id.${CLR_DEF}";
+    themeid="${3}";
 fi;
 
 oldfileparts=($(echo "${oldfile/app\/design\/frontend\//}" | tr '/' '\n'));
 originalpath="frontend/${oldfileparts[0]}/${oldfileparts[1]}";
-newpath="frontend/${themeid}/default";
+newpath="frontend/${packageid}/${themeid}";
 
 ###################################
 ## Test theme
 ###################################
 
-if [[ $themeid == '' ]]; then
+if [[ $packageid == '' ]]; then
     echo -e "${CLR_RED}- The theme could not be imported from config.${CLR_DEF}";
     return 0;
 fi;

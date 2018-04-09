@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Mage Tools v 0.46.1
+# Mage Tools v 0.46.2
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) 2017 Darklg
@@ -59,7 +59,7 @@ case "$1" in
     ;;
     'copy' | 'cp')
         echo -e "${CLR_BLUE}## COPY${CLR_DEF}";
-        . "${SOURCEDIR}/inc/copy.sh" $2;
+        . "${SOURCEDIR}/inc/copy.sh" $2 $3 $4;
     ;;
     'debug')
         echo -e "${CLR_BLUE}## DEBUG${CLR_DEF}";
