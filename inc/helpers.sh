@@ -45,10 +45,16 @@ function magetools_wait_for () {
         debugtimer="${1}";
     fi;
     while [ "$debugtimer" -gt 0 ]; do
-        echo "... You have $debugtimer second(s) to reload your page.";
+        seconds_name='seconds';
+        if [ "$debugtimer" -lt 2 ];then
+            seconds_name='second';
+        fi;
+        echo -ne "You have $debugtimer $seconds_name to reload your page...\r";
         debugtimer=$(($debugtimer - 1));
         sleep 1;
     done;
+    echo -ne '\r\n'
+
 }
 
 
