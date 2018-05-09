@@ -44,16 +44,33 @@ function magetools_wait_for () {
     if [ -n "${1}" ]; then
         debugtimer="${1}";
     fi;
+
+    # Create a blank line to reset content
+    let fillsize=${COLUMNS}
+    fill=""
+    while [ "$fillsize" -gt "0" ]; do
+        fill=" ${fill}"
+        let fillsize=${fillsize}-1
+    done
+
+    # Display timer
     while [ "$debugtimer" -gt 0 ]; do
         seconds_name='seconds';
         if [ "$debugtimer" -lt 2 ];then
             seconds_name='second';
         fi;
+
+        # Reset line
+        echo -ne "$fill\r";
+
+        # Display new timer status
         echo -ne "You have $debugtimer $seconds_name to reload your page...\r";
         debugtimer=$(($debugtimer - 1));
         sleep 1;
     done;
-    echo -ne '\r\n'
+
+    # Clear timer
+    echo -ne "$fill\r";
 
 }
 
